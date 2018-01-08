@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.android.support:design-26.1.0">
+    <CLASSES>
+      <root url="file://E:/BTCI-EmployeeEngagementApp-master/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/f825ddf420b88416b33fd1aa052ab592/res" />
+      <root url="jar://E:/BTCI-EmployeeEngagementApp-master/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/f825ddf420b88416b33fd1aa052ab592/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://E:/BTCI-EmployeeEngagementApp-master/.gradle/caches/modules-2/files-2.1/com.android.support/design/26.1.0/c7ac62df01dd0a97d93500ad3da7faebf03ba49/design-26.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

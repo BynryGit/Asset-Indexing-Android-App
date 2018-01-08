@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.google.android.gms:play-services-cast-framework-10.0.1">
+    <CLASSES>
+      <root url="jar://E:/BTCI-EmployeeEngagementApp-master/.gradle/caches/transforms-1/files-1.1/play-services-cast-framework-10.0.1.aar/c405eac34ef5c7e31778b6eee9a09f86/jars/classes.jar!/" />
+      <root url="file://E:/BTCI-EmployeeEngagementApp-master/.gradle/caches/transforms-1/files-1.1/play-services-cast-framework-10.0.1.aar/c405eac34ef5c7e31778b6eee9a09f86/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

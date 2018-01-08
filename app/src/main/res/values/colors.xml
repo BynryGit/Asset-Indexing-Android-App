@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<color name="colorPrimary">#3BA0BF</color>-->
+    <color name="colorPrimary">#53a39a</color>
+    <color name="colorPrimaryDark">#297085</color>
+    <color name="colorAccent">#297085</color>
+    <color name="colorAccentDark">#0A5048</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorText">#000000</color>
+    <color name="colorBackground">#EDFDFF</color>
+    <color name="colorSearchBack">#F2F2F2</color>
+
+    <!-- text color-->
+    <color name="colorTextBlack">#4A4A4A</color>
+    <color name="colorTextFaint">#9B9B9B</color>
+    <color name="colorTextDate"> #284061</color>
+    <color name="colorEditText">#FFC1C1C1</color>
+    <color name="colorCard">#fdfbd2</color>
+    <color name="colorWhatsUpBack">#F9F9F9</color>
+
+    <color name="colorBlack">#000000</color>
+    <color name="colorFaintBlack">#c0c0c0</color>
+    <!--<color name="colorButton">#DC630A</color>-->
+
+    <color name="colorButton">#297085</color>
+    <color name="colorGoogleButton">#E25143</color>
+    <color name="colorFbButton">#4D6FA6</color>
+    <color name="circle">#D0021B</color>
+    <color name="blackBackground">#545454</color>
+    <color name="buttonColor">#8e6791</color>
+    <color name="background_color_1">#F3F3F3</color>
+
+    <color name="background_color">#F3F3FF</color>
+    <color name="colorTransparent">#80FFFFFF</color>
+    <color name="colorBlackTransparent">#99000000</color>
+
+    <color name="color1">#432d78</color>
+    <color name="color2">#53a39a</color>
+
+</resources>

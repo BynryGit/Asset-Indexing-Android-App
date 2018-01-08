@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:id="@+id/grp1" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_nsc"
+            android:title="New Service Connection"/>
+    </group>
+
+    <group android:id="@+id/grp2" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_disconnection"
+            android:title="Disconnection"/>
+    </group>
+
+    <group android:id="@+id/grp3" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_reconnection"
+            android:title="Reconnection"/>
+    </group>
+
+    <group android:id="@+id/grp4" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_meter_change"
+            android:title="Meter Change"/>
+    </group>
+
+    <group android:id="@+id/grp5" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inspection"
+            android:title="Feeder Inspection"/>
+    </group>
+
+    <group android:id="@+id/grp6" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_vigilance"
+            android:title="Vigilance"/>
+    </group>
+
+    <group android:id="@+id/grp7" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout"/>
+    </group>
+
+    <group android:id="@+id/grp8" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav"
+            android:title=""/>
+    </group>
+
+    <!--<item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send"/>
+        </menu>
+    </item>-->
+
+</menu>

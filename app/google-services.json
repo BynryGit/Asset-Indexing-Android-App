@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "553355485693",
+    "firebase_url": "https://asset-indexing-a-1515411083496.firebaseio.com",
+    "project_id": "asset-indexing-a-1515411083496",
+    "storage_bucket": "asset-indexing-a-1515411083496.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553355485693:android:7b08837c147de1b9",
+        "android_client_info": {
+          "package_name": "com.aia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553355485693-vv2vaid8om5uopvpp9p703u4o3pireaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyKG61iRFXZdWAUd76MefMaF1wk2tzPOM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
