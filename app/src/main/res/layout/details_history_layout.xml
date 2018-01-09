@@ -34,7 +34,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/total_history"
+                    android:id="@+id/btn_total_history"
                     android:layout_gravity="center"
                     android:background="@drawable/rounded_square"
                     android:layout_width="50dp"
@@ -46,7 +46,7 @@
                     android:scaleType="centerInside" />
 
                 <TextView
-                    android:id="@+id/tv_open_history"
+                    android:id="@+id/txt_total_history"
                     android:textSize="@dimen/text_size_h3"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/completed_history"
+                    android:id="@+id/btn_completed_history"
                     android:layout_gravity="center"
                     android:background="@drawable/rounded_square"
                     android:layout_width="50dp"
@@ -76,7 +76,7 @@
                     android:scaleType="centerInside" />
 
                 <TextView
-                    android:id="@+id/tv_unbill_history"
+                    android:id="@+id/txt_completed_history"
                     android:textAlignment="center"
                     android:layout_marginTop="@dimen/margin_h3"
                     android:textSize="@dimen/text_size_h3"

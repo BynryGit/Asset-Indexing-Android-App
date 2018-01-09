@@ -5,7 +5,7 @@
     <color name="colorPrimary">#53a39a</color>
     <color name="colorPrimaryDark">#297085</color>
     <color name="colorAccent">#297085</color>
-    <color name="colorAccentDark">#0A5048</color>
+    <!--<color name="colorAccentDark">#0A5048</color>-->
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorText">#000000</color>

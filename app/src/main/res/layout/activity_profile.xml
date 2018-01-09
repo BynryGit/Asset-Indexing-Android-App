@@ -45,14 +45,14 @@
             <ImageView
                 android:id="@+id/img_call"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_weight="0.4"
                 android:src="@drawable/ic_action_call"/>
 
             <ImageView
                 android:id="@+id/img_logout"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_weight="0.4"
                 android:rotation="90"
                 android:src="@drawable/ic_action_logout"/>
@@ -234,7 +234,7 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
@@ -280,7 +280,7 @@
 
                 </RadioGroup>
 
-            </RelativeLayout>
+            </RelativeLayout>-->
 
             <View
                 android:layout_width="match_parent"

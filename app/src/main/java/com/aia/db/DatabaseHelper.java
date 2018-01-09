@@ -5,12 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.aia.db.tables.BreakDownJobCardTable;
-import com.aia.db.tables.DISCJobCardTable;
-import com.aia.db.tables.MonitoringJobCardTable;
 import com.aia.db.tables.NSCJobCardTable;
 import com.aia.db.tables.LoginTable;
-import com.aia.db.tables.PreventiveJobCardTable;
+import com.aia.db.tables.NotificationTable;
 
 import java.text.MessageFormat;
 
@@ -34,11 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         createLoginTable(db);
+        createNotificationTable(db);
         createNSCJobCardTable(db);
-        createDISCJobCardTable(db);
-        createMonitoringJobCardTable(db);
-        createPreventiveJobCardTable(db);
-        createBreakdownJobCardTable(db);
     }
 
     @Override
@@ -66,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     private void createNSCJobCardTable(SQLiteDatabase db)
     {
-        String NSCjobCardTableFields = NSCJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String NSCJobCardTableFields = NSCJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NSCJobCardTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
                 NSCJobCardTable.Cols.ASSET_ID + " VARCHAR, " +
                 NSCJobCardTable.Cols.ASSET_NAME + " VARCHAR, " +
@@ -77,68 +71,18 @@ public class DatabaseHelper extends SQLiteOpenHelper
                 NSCJobCardTable.Cols.CARD_STATUS + " VARCHAR, " +
                 NSCJobCardTable.Cols.ASSET_LOCATION + " VARCHAR, " +
                 NSCJobCardTable.Cols.ASSIGNED_DATE + " VARCHAR";
-        createTable(db, NSCJobCardTable.TABLE_NAME, NSCjobCardTableFields);
+        createTable(db, NSCJobCardTable.TABLE_NAME, NSCJobCardTableFields);
     }
 
-    private void createDISCJobCardTable(SQLiteDatabase db) {
-        String DISCjobCardTableFields = DISCJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DISCJobCardTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
-                DISCJobCardTable.Cols.ASSET_ID + " VARCHAR, " +
-                DISCJobCardTable.Cols.ASSET_NAME + " VARCHAR, " +
-                DISCJobCardTable.Cols.DECOMMISSION_ID + " VARCHAR, " +
-                DISCJobCardTable.Cols.ASSET_CATEGORY + " VARCHAR, " +
-                DISCJobCardTable.Cols.ASSET_SUBCATEGORY + " VARCHAR, " +
-                DISCJobCardTable.Cols.ASSET_AREA + " VARCHAR, " +
-                DISCJobCardTable.Cols.CARD_STATUS + " VARCHAR, " +
-                DISCJobCardTable.Cols.ASSET_LOCATION + " VARCHAR, " +
-                DISCJobCardTable.Cols.ASSIGNED_DATE + " VARCHAR";
+    private void createNotificationTable(SQLiteDatabase db)
+    {
+        String notificationTableFields = NotificationTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NotificationTable.Cols.TITLE+ " VARCHAR, " +
+                NotificationTable.Cols.MSG + " VARCHAR, " +
+                NotificationTable.Cols.DATE + " VARCHAR, " +
+                NotificationTable.Cols.IS_READ + " VARCHAR " ;
 
-        createTable(db, DISCJobCardTable.TABLE_NAME, DISCjobCardTableFields);
-    }
-
-    private void createMonitoringJobCardTable(SQLiteDatabase db) {
-        String MJobCardTableFields = MonitoringJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                MonitoringJobCardTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.ASSET_ID + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.ASSET_NAME + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.MONITORING_ID + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.ASSET_CATEGORY + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.ASSET_SUBCATEGORY + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.ASSET_AREA + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.CARD_STATUS + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.ASSET_LOCATION + " VARCHAR, " +
-                MonitoringJobCardTable.Cols.ASSIGNED_DATE + " VARCHAR";
-        createTable(db, MonitoringJobCardTable.TABLE_NAME, MJobCardTableFields);
-    }
-
-    private void createPreventiveJobCardTable(SQLiteDatabase db) {
-        String PrevJobCardTableFields = PreventiveJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                PreventiveJobCardTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.ASSET_ID + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.ASSET_NAME + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.PREVENTIVE_ID + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.ASSET_CATEGORY + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.ASSET_SUBCATEGORY + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.ASSET_AREA + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.CARD_STATUS + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.DATE + " VARCHAR, " +
-                PreventiveJobCardTable.Cols.ASSET_LOCATION + " VARCHAR";
-        createTable(db, PreventiveJobCardTable.TABLE_NAME, PrevJobCardTableFields);
-    }
-
-    private void createBreakdownJobCardTable(SQLiteDatabase db) {
-        String BreakdownJobCardTableFields = BreakDownJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                BreakDownJobCardTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.ASSET_ID + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.ASSET_NAME + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.BREAKDOWN_ID + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.ASSET_CATEGORY + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.ASSET_SUBCATEGORY + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.ASSET_AREA + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.CARD_STATUS + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.DATE + " VARCHAR, " +
-                BreakDownJobCardTable.Cols.ASSET_LOCATION + " VARCHAR";
-        createTable(db, BreakDownJobCardTable.TABLE_NAME, BreakdownJobCardTableFields);
+        createTable(db, NotificationTable.TABLE_NAME, notificationTableFields);
     }
 
     public void dropTable(SQLiteDatabase db, String name)

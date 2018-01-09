@@ -1,10 +1,13 @@
 package com.aia.utility;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aia.R;
@@ -12,8 +15,7 @@ import com.aia.R;
 
 public class DialogCreator
 {
-    // Created By Prachi 20/12/17
-  /*  public static void showMessageDialog(Context mContext, String message, String mImageDisplay)
+    /*public static void showMessageDialog(Context mContext, String message, String mImageDisplay)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View promptView = layoutInflater.inflate(R.layout.dialog_without_title, null);
@@ -27,12 +29,51 @@ public class DialogCreator
         {
             imageView.setImageResource(R.drawable.checked_green);
         }
-        TextView msg = (TextView) promptView.findViewById(R.id.tv_msg);
-        msg.setTypeface(regular);
+        TextView msg = promptView.findViewById(R.id.tv_msg);
+//        msg.setTypeface(regular);
         msg.setText(message);
-        Button ok = (Button) promptView.findViewById(R.id.btn_ok);
-        ok.setTypeface(regular);
+        Button ok = promptView.findViewById(R.id.btn_ok);
+//        ok.setTypeface(regular);
         ok.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                alert.dismiss();
+            }
+        });
+        alert.setView(promptView);
+        alert.show();
+    }*/
+    
+    public static void showExitDialog(final Activity activity, String title, String message, final String screenName)
+    {
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
+        View promptView = layoutInflater.inflate(R.layout.dialog_with_title, null);
+        final AlertDialog alert = new AlertDialog.Builder(activity).create();
+        TextView txtTitle = promptView.findViewById(R.id.tv_title);
+//        txtTitle.setTypeface(regular);
+        txtTitle.setText(title);
+        TextView txtSubTitle = promptView.findViewById(R.id.tv_msg);
+//        txtSubTitle.setTypeface(regular);
+        txtSubTitle.setText(message);
+        Button yes = promptView.findViewById(R.id.btn_yes);
+//        yes.setTypeface(regular);
+        yes.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                activity.finish();
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_NO_HISTORY);
+                activity.startActivity(a);
+                alert.dismiss();
+            }
+        });
+
+        Button no = promptView.findViewById(R.id.btn_no);
+//        no.setTypeface(regular);
+        no.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
@@ -43,62 +84,19 @@ public class DialogCreator
         alert.show();
     }
 
-
-
-    public static void showExitDialog(final Activity activity, String title, String message, final String screenName)
-    {
-
-        LayoutInflater layoutInflater = LayoutInflater.from(activity);
-        View promptView = layoutInflater.inflate(R.layout.dialog_with_title, null);
-        final AlertDialog alert = new AlertDialog.Builder(activity).create();
-        TextView t= (TextView) promptView.findViewById(R.id.tv_title);
-        t.setTypeface(regular);
-        t.setText(title);
-        TextView msg = (TextView) promptView.findViewById(R.id.tv_msg);
-        msg.setTypeface(regular);
-        msg.setText(message);
-        Button yes = (Button) promptView.findViewById(R.id.btn_yes);
-        yes.setTypeface(regular);
-        yes.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                activity.finish();
-                Intent a = new Intent(Intent.ACTION_MAIN);
-                a.addCategory(Intent.CATEGORY_HOME);
-                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_NO_HISTORY);
-                activity.startActivity(a);
-                AppPreferences.getInstance(activity).putString(AppConstants.SCREEN_FROM_EXIT, screenName);
-                alert.dismiss();
-            }
-        });
-
-        Button no = (Button) promptView.findViewById(R.id.btn_no);
-        no.setTypeface(regular);
-        no.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                alert.dismiss();
-            }
-        });
-        alert.setView(promptView);
-        alert.show();
-    }*/
-
    /* public static void showLogoutDialog(final Activity activity, String title, String message)
     {
         Typeface regular = App.getSansationRegularFont();
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
         View promptView = layoutInflater.inflate(R.layout.dialog_with_title, null);
         final AlertDialog alert = new AlertDialog.Builder(activity).create();
-        TextView t= (TextView) promptView.findViewById(R.id.tv_title);
+        TextView t= promptView.findViewById(R.id.tv_title);
         t.setTypeface(regular);
         t.setText(title);
-        TextView msg = (TextView) promptView.findViewById(R.id.tv_msg);
+        TextView msg = promptView.findViewById(R.id.tv_msg);
         msg.setTypeface(regular);
         msg.setText(message);
-        Button yes = (Button) promptView.findViewById(R.id.btn_yes);
+        Button yes = promptView.findViewById(R.id.btn_yes);
         yes.setTypeface(regular);
         yes.setOnClickListener(new View.OnClickListener()
         {
@@ -115,7 +113,7 @@ public class DialogCreator
             }
         });
 
-        Button no = (Button) promptView.findViewById(R.id.btn_no);
+        Button no = promptView.findViewById(R.id.btn_no);
         no.setTypeface(regular);
         no.setOnClickListener(new View.OnClickListener()
         {
@@ -156,7 +154,7 @@ public class DialogCreator
         //Setting values to the text ends
 
         //OK button code starts
-        Button yes = (Button) promptView.findViewById(R.id.btn_ok);
+        Button yes = promptView.findViewById(R.id.btn_ok);
         yes.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)

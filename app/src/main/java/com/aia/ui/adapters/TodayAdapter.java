@@ -1,8 +1,6 @@
 package com.aia.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,18 +22,12 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayHolder>
 {
 
     private Context mContext;
-    private String screenName = "";
     private ArrayList<TodayModel> mTodayModelCards;
 
-    public TodayAdapter(Context context, String screenName, ArrayList<TodayModel> todayModelCards)
+    public TodayAdapter(Context context, ArrayList<TodayModel> todayModelCards)
     {
         this.mContext = context;
-        this.screenName = screenName;
         this.mTodayModelCards = todayModelCards;
-    }
-
-    public TodayAdapter(){
-
     }
 
     @Override
@@ -51,38 +43,15 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayHolder>
     {
         CommonUtility.setAnimation(holder.itemView, position, -1, mContext);
 
-        if(screenName.equals(CommonUtility.getString(mContext, R.string.short_nsc)))
-        {
-            holder.txtFirst.setText(mTodayModelCards.get(position).getAsset_name());
-            holder.txtSecond.setText(mTodayModelCards.get(position).getCategory());
-            holder.txtThird.setText(mTodayModelCards.get(position).getArea());
-            holder.txtFourth.setText(mTodayModelCards.get(position).getLocation());
-        }
-        else if(screenName.equals(CommonUtility.getString(mContext, R.string.disconnection)))
-        {
-            holder.lblFirst.setText(R.string.asset_name);
-            holder.lblSecond.setText(R.string.category);
-            holder.lblThird.setText(R.string.area);
-            holder.lblFourth.setText(R.string.location);
+        holder.lblFirst.setText(R.string.asset_name);
+        holder.lblSecond.setText(R.string.category);
+        holder.lblThird.setText(R.string.area);
+        holder.lblFourth.setText(R.string.location);
 
-            holder.txtFirst.setText(mTodayModelCards.get(position).getAsset_name());
-            holder.txtSecond.setText(mTodayModelCards.get(position).getCategory());
-            holder.txtThird.setText(mTodayModelCards.get(position).getArea());
-            holder.txtFourth.setText(mTodayModelCards.get(position).getLocation());
-        }
-
-        else if(screenName.equals(CommonUtility.getString(mContext, R.string.monitoring)))
-        {
-            holder.lblFirst.setText(R.string.asset_name);
-            holder.lblSecond.setText(R.string.category);
-            holder.lblThird.setText(R.string.area);
-            holder.lblFourth.setText(R.string.location);
-
-            holder.txtFirst.setText(mTodayModelCards.get(position).getAsset_name());
-            holder.txtSecond.setText(mTodayModelCards.get(position).getCategory());
-            holder.txtThird.setText(mTodayModelCards.get(position).getArea());
-            holder.txtFourth.setText(mTodayModelCards.get(position).getLocation());
-        }
+        holder.txtFirst.setText(mTodayModelCards.get(position).getAsset_name());
+        holder.txtSecond.setText(mTodayModelCards.get(position).getCategory());
+        holder.txtThird.setText(mTodayModelCards.get(position).getArea());
+        holder.txtFourth.setText(mTodayModelCards.get(position).getLocation());
 
         holder.cardView.setOnClickListener(new View.OnClickListener()
         {
@@ -124,26 +93,6 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayHolder>
             txtSecond = itemView.findViewById(R.id.txt_second);
             txtThird = itemView.findViewById(R.id.txt_third);
             txtFourth = itemView.findViewById(R.id.txt_fourth);
-
-            if(screenName.equals(CommonUtility.getString(mContext, R.string.reconnection)) ||
-                    screenName.equals(CommonUtility.getString(mContext, R.string.disconnection)))
-            {
-                lblFirst.setText(CommonUtility.getString(mContext, R.string.consumer_name));
-                lblSecond.setText(CommonUtility.getString(mContext, R.string.binder));
-                lblThird.setText(CommonUtility.getString(mContext, R.string.acc_no));
-            }
-            else if(screenName.equals(CommonUtility.getString(mContext, R.string.short_nsc)))
-            {
-                lblFirst.setText(R.string.asset_name);
-                 lblSecond.setText(R.string.category);
-                lblThird.setText(R.string.area);
-                lblFourth.setText(R.string.location);
-
-            }
-            else if(screenName.equals(CommonUtility.getString(mContext, R.string.monitoring)))
-            {
-                lblThird.setText(CommonUtility.getString(mContext, R.string.monitoring_type));
-            }
         }
     }
 }

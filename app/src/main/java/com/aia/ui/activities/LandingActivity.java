@@ -2,6 +2,7 @@ package com.aia.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,18 +11,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aia.R;
+import com.aia.interfaces.ApiServiceCaller;
 import com.aia.ui.adapters.ViewPagerAdapter;
 import com.aia.ui.fragments.HistoryFragment;
 import com.aia.ui.fragments.TodayFragment;
+import com.aia.utility.App;
 import com.aia.utility.AppConstants;
 import com.aia.utility.AppPreferences;
+import com.aia.utility.DialogCreator;
+import com.aia.webservices.JsonResponse;
+import com.android.volley.NetworkResponse;
 
-public class LandingActivity extends ParentActivity implements View.OnClickListener
+public class LandingActivity extends ParentActivity implements View.OnClickListener, ApiServiceCaller
 {
 
     private Context mContext;
@@ -31,11 +38,14 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
 
     private TextView txtTitle;
     private ViewPagerAdapter adapter;
-    private Menu menu;
     private FrameLayout layoutToday, layoutHistory;
     public static FloatingActionButton floatingSearch;
     private LinearLayout linearProfile;
     private Intent intent;
+    private Typeface fontBold, fontRegular, fontItalic;
+
+    private Button btnOpenToday, btnCompletedToday, btnTotalHistory, btnCompletedHistory;
+    private TextView txtOpenToday, txtCompletedToday, txtTotalHistory, txtCompletedHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +53,10 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
         mContext = this;
+
+        fontRegular = App.getFontRegular();
+        fontBold = App.getFontBold();
+        fontItalic = App.getFontItalic();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,7 +69,26 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         tabLayout.setupWithViewPager(viewPager);
 
         txtTitle = findViewById(R.id.txt_name);
+        txtTitle.setTypeface(fontBold);
         txtTitle.setText(AppPreferences.getInstance(mContext).getString(AppConstants.USER_NAME, AppConstants.BLANK_STRING));
+
+        txtOpenToday = findViewById(R.id.txt_open_today);
+        txtOpenToday.setTypeface(fontRegular);
+        txtCompletedToday = findViewById(R.id.txt_completed_today);
+        txtCompletedToday.setTypeface(fontRegular);
+        txtTotalHistory = findViewById(R.id.txt_total_history);
+        txtTotalHistory.setTypeface(fontRegular);
+        txtCompletedHistory = findViewById(R.id.txt_completed_history);
+        txtCompletedHistory.setTypeface(fontRegular);
+
+        btnOpenToday = findViewById(R.id.btn_open_today);
+        btnOpenToday.setTypeface(fontItalic);
+        btnCompletedToday = findViewById(R.id.btn_completed_today);
+        btnCompletedToday.setTypeface(fontItalic);
+        btnTotalHistory = findViewById(R.id.btn_total_history);
+        btnTotalHistory.setTypeface(fontItalic);
+        btnCompletedHistory = findViewById(R.id.btn_completed_history);
+        btnCompletedHistory.setTypeface(fontItalic);
 
         layoutToday = findViewById(R.id.today_layout);
         layoutHistory = findViewById(R.id.history_layout);
@@ -93,15 +126,12 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
     {
         if(var == 0)
         {
-            menu.getItem(AppConstants.ZERO).setIcon(getResources().getDrawable(R.drawable.ic_action_download));
-            menu.getItem(AppConstants.ZERO).setVisible(true);
             layoutToday.setVisibility(View.VISIBLE);
             layoutHistory.setVisibility(View.GONE);
 
         }
         else if(var == 1)
         {
-            menu.getItem(AppConstants.ZERO).setVisible(false);
             layoutToday.setVisibility(View.GONE);
             layoutHistory.setVisibility(View.VISIBLE);
         }
@@ -110,7 +140,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
     @Override
     public void onBackPressed()
     {
-
+        DialogCreator.showExitDialog(this, getString(R.string.exit_app), getString(R.string.do_you_want_to_exit), AppConstants.BLANK_STRING);
     }
 
     @Override
@@ -147,7 +177,24 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.details_menu, menu);
-        this.menu = menu;
         return true;
+    }
+
+    @Override
+    public void onAsyncSuccess(JsonResponse jsonResponse, String label)
+    {
+
+    }
+
+    @Override
+    public void onAsyncFail(String message, String label, NetworkResponse response)
+    {
+
+    }
+
+    @Override
+    public void onAsyncCompletelyFail(String message, String label)
+    {
+
     }
 }

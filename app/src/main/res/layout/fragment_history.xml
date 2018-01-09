@@ -14,4 +14,13 @@
         android:paddingTop="10dp"
         android:scrollbars="vertical" />
 
+    <TextView
+        android:id="@+id/txt_empty_screen_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:textAlignment="center"
+        android:text="@string/no_data_available"
+        android:textSize="@dimen/text_size_h4"/>
+
 </RelativeLayout>

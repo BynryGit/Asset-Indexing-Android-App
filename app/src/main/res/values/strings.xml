@@ -1,88 +1,50 @@
 <resources>
     <string name="app_name">AIA</string>
     <string name="map_key">AIzaSyAAFVAIDmaUcQwXhk6z6NaXR8bGGjr3OEg</string>
-    <string name="title_activity_landing">LandingActivity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-
-    <string name="nsc">New\nConnection</string>
-    <string name="disconnection">Disconnection</string>
-    <string name="reconnection">Reconnection</string>
-    <string name="meter_change">Meter Change</string>
-    <string name="feeder_inspection">Inspection</string>
-    <string name="complaints">Complaints</string>
-    <string name="maintenance">Maintenance</string>
-    <string name="monitoring">Monitoring</string>
 
     <string name="login">Login</string>
     <string name="id">ID</string>
     <string name="password">Password</string>
     <string name="title">Title</string>
-
     <string name="today">Today</string>
     <string name="completed">Completed</string>
     <string name="history">History</string>
-
-    <string name="short_nsc">New Service Connection</string>
     <string name="total">Total</string>
     <string name="open">Open</string>
-    <string name="revisit">Revisit</string>
-    <string name="remaining">Remaining</string>
-
-    <string name="consumer_name">Consumer Name</string>
-    <string name="asset_id">Asset Id</string>
-    <string name="acc_no">Account No</string>
-    <string name="dummy_text">Dummy Text</string>
     <string name="full_name">Full Name</string>
-    <string name="asset_name">Asset Name</string>
-    <string name="breakdown_type">BreakDown Type</string>
     <string name="area">Area</string>
-    <string name="category">Category</string>
-    <string name="location">Location</string>
-    <string name="parameter">Parameter</string>
     <string name="sub_category">SubCategory</string>
-    <string name="checking_parameters">Checking Parameters</string>
-    <string name="asset_image">Asset Image</string>
-    <string name="reading_params">Reading Parameters</string>
-    <string name="enter_reading">Enter Reading</string>
+    <string name="category">Category</string>
     <string name="value">Value</string>
     <string name="units">Units</string>
     <string name="date">Date</string>
-    <string name="total_assign">Total Assigned</string>
-
-
-    <string name="my_profile">My Profile</string>
     <string name="city">City</string>
     <string name="mobile_number">Mobile Number</string>
+    <string name="select_profile_photo">Select Profile Photo</string>
+    <string name="gallery">Gallery</string>
+    <string name="remove">Remove</string>
+    <string name="profile_image">profile_image</string>
 
-    <string name="select_language">Select Language</string>
-    <string name="english">English</string>
-    <string name="hindi">Hindi</string>
+    <string name="notification_title">Notification Title</string>
+    <string name="this_is_message_body_of_the_notification">This is message body of the Notification ...............</string>
 
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="submit">Submit</string>
-
-    <string name="preventive">Preventive</string>
-    <string name="breakdown">Breakdown</string>
-    <string name="ok">Ok</string>
-    <string name="get_inspection_form">Get Inspection Form</string>
-    <string name="inspection_form">Inspection Form</string>
+    <!--Text Screen Names Starts-->
+    <string name="title_activity_landing">LandingActivity</string>
+    <string name="my_profile">My Profile</string>
     <string name="notification">Notification</string>
-    <string name="type">Type</string>
-    <string name="verify">Verify</string>
-    <string name="binder">Binder</string>
-    <string name="meter_no">Meter Number</string>
-    <string name="meter_type">Meter Type</string>
-    <string name="inspection_type">Inspection Type</string>
-    <string name="monitoring_type">Monitoring Type</string>
-    <string name="complaint_type">Complaint Type</string>
-    <string name="completed_date">Completed Date</string>
-    <string name="assigned_date">Assigned Date</string>
+    <string name="action_settings">Settings</string>
+    <!--Text Screen Names Ends-->
 
+    <!--Text on Dialogs Starts-->
+    <string name="exit_app">Exit App?</string>
+    <string name="do_you_want_to_exit">Do you want to exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">Ok</string>
+    <string name="submit">Submit</string>
+    <!--Text on Dialogs Ends-->
+
+    <!--Dummy Text Starts-->
     <string name="dummy_user_name">Bynry Technologies</string>
     <string name="dummy_asset_id">123456789</string>
     <string name="dummy_meter_number">987654321</string>
@@ -98,11 +60,14 @@
     <string name="dummy_meter_type">Analog/Digital</string>
     <string name="dummy_inspection_type">Transformer Damage</string>
     <string name="dummy_breakdown_type">BreakDown</string>
-
-    <string name="select_profile_photo">Select Profile Photo</string>
-    <string name="gallery">Gallery</string>
-    <string name="remove">Remove</string>
-    <string name="profile_image">profile_image</string>
+    <!--Dummy Text Ends-->
+    
+    <!--Text on Cards Starts-->
+    <string name="asset_id">Asset Id</string>
+    <string name="asset_name">Asset Name</string>
+    <string name="make_make_no">Make/Make No</string>
+    <string name="location">Location</string>
+    <!--Text on Cards Ends-->
 
     <!--All Errors related messages starts-->
     <string name="error_internet_not_connected">Please Check Your Internet Connection</string>
@@ -112,12 +77,12 @@
     <string name="please_enter_user_id">Please Enter UserId</string>
     <string name="error_checking_parameters">Please Check Asset Parameters</string>
     <string name="error_reading_parameters">Please Enter Reading</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main2">Main2Activity</string>
-
-    <!-- error strings-->
-    <string name="er_please_contact_server_admin">Your username and phone id does not match, Please contact admin.</string>
+    <string name="error_please_contact_server_admin">Your username and phone id does not match, Please contact admin.</string>
+    <!--All Errors related messages ends-->
+    
+    <!--Empty Screen Messages Starts-->
+    <string name="consumer_info_not_assigned_to_you">Consumer info not Assigned to you!</string>
+    <string name="no_data_available">No data Available</string>
+    <!--Empty Screen Messages Ends-->
 
 </resources>

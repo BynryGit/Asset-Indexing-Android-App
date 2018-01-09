@@ -3,6 +3,7 @@ package com.aia.utility;
 import android.Manifest;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -21,7 +22,7 @@ public class App extends MultiDexApplication
     private RequestQueue mRequestQueue;
     private static App mInstance;
     public ArrayList<String> permissions;
-
+    private static Typeface fontRegular, fontBold, fontItalic;
 
     @Override
     public void onCreate()
@@ -36,8 +37,18 @@ public class App extends MultiDexApplication
         permissions.add(Manifest.permission.RECEIVE_SMS);
         permissions.add(Manifest.permission.READ_SMS);
 
+        fontRegular = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/Neris_Regular.otf");
+        fontBold = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/Neris_Bold.otf");
+        fontItalic = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/Neris_Italic.otf");
+
         initPicassoSetup();
     }
+
+    public static Typeface getFontRegular() { return fontRegular; }
+
+    public static Typeface getFontBold() { return fontBold; }
+
+    public static Typeface getFontItalic() { return fontItalic; }
 
     public static synchronized App getInstance()
     {

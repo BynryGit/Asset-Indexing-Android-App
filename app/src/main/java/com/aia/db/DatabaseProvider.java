@@ -7,12 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
-import com.aia.db.tables.BreakDownJobCardTable;
-import com.aia.db.tables.DISCJobCardTable;
 import com.aia.db.tables.LoginTable;
-import com.aia.db.tables.MonitoringJobCardTable;
 import com.aia.db.tables.NSCJobCardTable;
-import com.aia.db.tables.PreventiveJobCardTable;
+import com.aia.db.tables.NotificationTable;
 
 
 /**
@@ -54,44 +51,18 @@ public class DatabaseProvider extends ContentProvider
                         selection, selectionArgs, sortOrder);
                 break;
             }
-
+            case NotificationTable.PATH_TOKEN:
+            {
+                result = doQuery(db, uri, NotificationTable.TABLE_NAME, projection,
+                        selection, selectionArgs, sortOrder);
+                break;
+            }
             case NSCJobCardTable.PATH_TOKEN:
             {
                 result = doQuery(db, uri, NSCJobCardTable.TABLE_NAME, projection,
                         selection, selectionArgs, sortOrder);
                 break;
             }
-
-            case DISCJobCardTable.PATH_TOKEN:
-            {
-                result = doQuery(db, uri, DISCJobCardTable.TABLE_NAME, projection,
-                        selection, selectionArgs, sortOrder);
-                break;
-            }
-
-            case MonitoringJobCardTable.PATH_TOKEN:
-            {
-                result = doQuery(db, uri, MonitoringJobCardTable.TABLE_NAME, projection,
-                        selection, selectionArgs, sortOrder);
-                break;
-            }
-
-            case PreventiveJobCardTable.PATH_TOKEN:
-            {
-                result = doQuery(db, uri, PreventiveJobCardTable.TABLE_NAME, projection,
-                        selection, selectionArgs, sortOrder);
-                break;
-            }
-
-            case BreakDownJobCardTable.PATH_TOKEN:
-            {
-                result = doQuery(db, uri, BreakDownJobCardTable.TABLE_NAME, projection,
-                        selection, selectionArgs, sortOrder);
-                break;
-            }
-
-
-
         }
 
         return result;
@@ -118,36 +89,16 @@ public class DatabaseProvider extends ContentProvider
                         LoginTable.CONTENT_URI, uri, values);
                 break;
             }
-
+            case NotificationTable.PATH_TOKEN:
+            {
+                result = doInsert(db, NotificationTable.TABLE_NAME,
+                        NotificationTable.CONTENT_URI, uri, values);
+                break;
+            }
             case NSCJobCardTable.PATH_TOKEN:
             {
                 result = doInsert(db, NSCJobCardTable.TABLE_NAME,
                         NSCJobCardTable.CONTENT_URI, uri, values);
-                break;
-            }
-            case DISCJobCardTable.PATH_TOKEN:
-            {
-                result = doInsert(db, DISCJobCardTable.TABLE_NAME,
-                        DISCJobCardTable.CONTENT_URI, uri, values);
-                break;
-            }
-            case MonitoringJobCardTable.PATH_TOKEN:
-            {
-                result = doInsert(db, MonitoringJobCardTable.TABLE_NAME,
-                        MonitoringJobCardTable.CONTENT_URI, uri, values);
-                break;
-            }
-
-            case PreventiveJobCardTable.PATH_TOKEN:
-            {
-                result = doInsert(db, PreventiveJobCardTable.TABLE_NAME,
-                        PreventiveJobCardTable.CONTENT_URI, uri, values);
-                break;
-            }
-            case BreakDownJobCardTable.PATH_TOKEN:
-            {
-                result = doInsert(db, BreakDownJobCardTable.TABLE_NAME,
-                        BreakDownJobCardTable.CONTENT_URI, uri, values);
                 break;
             }
         }
@@ -173,30 +124,14 @@ public class DatabaseProvider extends ContentProvider
                 table = LoginTable.TABLE_NAME;
                 break;
             }
+            case NotificationTable.PATH_TOKEN:
+            {
+                table = NotificationTable.TABLE_NAME;
+                break;
+            }
             case NSCJobCardTable.PATH_TOKEN:
             {
                 table = NSCJobCardTable.TABLE_NAME;
-                break;
-            }
-            case DISCJobCardTable.PATH_TOKEN:
-            {
-                table = DISCJobCardTable.TABLE_NAME;
-                break;
-            }
-            case MonitoringJobCardTable.PATH_TOKEN:
-            {
-                table = MonitoringJobCardTable.TABLE_NAME;
-                break;
-            }
-
-            case PreventiveJobCardTable.PATH_TOKEN:
-            {
-                table = PreventiveJobCardTable.TABLE_NAME;
-                break;
-            }
-            case BreakDownJobCardTable.PATH_TOKEN:
-            {
-                table = BreakDownJobCardTable.TABLE_NAME;
                 break;
             }
         }
@@ -233,34 +168,15 @@ public class DatabaseProvider extends ContentProvider
                         selectionArgs);
                 break;
             }
+            case NotificationTable.PATH_TOKEN:
+            {
+                result = doDelete(db, uri, NotificationTable.TABLE_NAME, selection,
+                        selectionArgs);
+                break;
+            }
             case NSCJobCardTable.PATH_TOKEN:
             {
                 result = doDelete(db, uri, NSCJobCardTable.TABLE_NAME, selection,
-                        selectionArgs);
-                break;
-            }
-            case DISCJobCardTable.PATH_TOKEN:
-            {
-                result = doDelete(db, uri, DISCJobCardTable.TABLE_NAME, selection,
-                        selectionArgs);
-                break;
-            }
-            case MonitoringJobCardTable.PATH_TOKEN:
-            {
-                result = doDelete(db, uri, MonitoringJobCardTable.TABLE_NAME, selection,
-                        selectionArgs);
-                break;
-            }
-
-            case PreventiveJobCardTable.PATH_TOKEN:
-            {
-                result = doDelete(db, uri, PreventiveJobCardTable.TABLE_NAME, selection,
-                        selectionArgs);
-                break;
-            }
-            case BreakDownJobCardTable.PATH_TOKEN:
-            {
-                result = doDelete(db, uri, BreakDownJobCardTable.TABLE_NAME, selection,
                         selectionArgs);
                 break;
             }
@@ -286,34 +202,15 @@ public class DatabaseProvider extends ContentProvider
                         selectionArgs, values);
                 break;
             }
+            case NotificationTable.PATH_TOKEN:
+            {
+                result = doUpdate(db, uri, NotificationTable.TABLE_NAME, selection,
+                        selectionArgs, values);
+                break;
+            }
             case NSCJobCardTable.PATH_TOKEN:
             {
                 result = doUpdate(db, uri, NSCJobCardTable.TABLE_NAME, selection,
-                        selectionArgs, values);
-                break;
-            }
-            case DISCJobCardTable.PATH_TOKEN:
-            {
-                result = doUpdate(db, uri, DISCJobCardTable.TABLE_NAME, selection,
-                        selectionArgs, values);
-                break;
-            }
-            case MonitoringJobCardTable.PATH_TOKEN:
-            {
-                result = doUpdate(db, uri, MonitoringJobCardTable.TABLE_NAME, selection,
-                        selectionArgs, values);
-                break;
-            }
-
-            case PreventiveJobCardTable.PATH_TOKEN:
-            {
-                result = doUpdate(db, uri, PreventiveJobCardTable.TABLE_NAME, selection,
-                        selectionArgs, values);
-                break;
-            }
-            case BreakDownJobCardTable.PATH_TOKEN:
-            {
-                result = doUpdate(db, uri, BreakDownJobCardTable.TABLE_NAME, selection,
                         selectionArgs, values);
                 break;
             }
