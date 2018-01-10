@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
-import com.aia.db.tables.NSCJobCardTable;
 import com.aia.db.tables.NotificationTable;
 
 
@@ -57,9 +57,9 @@ public class DatabaseProvider extends ContentProvider
                         selection, selectionArgs, sortOrder);
                 break;
             }
-            case NSCJobCardTable.PATH_TOKEN:
+            case AssetJobCardTable.PATH_TOKEN:
             {
-                result = doQuery(db, uri, NSCJobCardTable.TABLE_NAME, projection,
+                result = doQuery(db, uri, AssetJobCardTable.TABLE_NAME, projection,
                         selection, selectionArgs, sortOrder);
                 break;
             }
@@ -95,10 +95,10 @@ public class DatabaseProvider extends ContentProvider
                         NotificationTable.CONTENT_URI, uri, values);
                 break;
             }
-            case NSCJobCardTable.PATH_TOKEN:
+            case AssetJobCardTable.PATH_TOKEN:
             {
-                result = doInsert(db, NSCJobCardTable.TABLE_NAME,
-                        NSCJobCardTable.CONTENT_URI, uri, values);
+                result = doInsert(db, AssetJobCardTable.TABLE_NAME,
+                        AssetJobCardTable.CONTENT_URI, uri, values);
                 break;
             }
         }
@@ -129,9 +129,9 @@ public class DatabaseProvider extends ContentProvider
                 table = NotificationTable.TABLE_NAME;
                 break;
             }
-            case NSCJobCardTable.PATH_TOKEN:
+            case AssetJobCardTable.PATH_TOKEN:
             {
-                table = NSCJobCardTable.TABLE_NAME;
+                table = AssetJobCardTable.TABLE_NAME;
                 break;
             }
         }
@@ -174,9 +174,9 @@ public class DatabaseProvider extends ContentProvider
                         selectionArgs);
                 break;
             }
-            case NSCJobCardTable.PATH_TOKEN:
+            case AssetJobCardTable.PATH_TOKEN:
             {
-                result = doDelete(db, uri, NSCJobCardTable.TABLE_NAME, selection,
+                result = doDelete(db, uri, AssetJobCardTable.TABLE_NAME, selection,
                         selectionArgs);
                 break;
             }
@@ -208,9 +208,9 @@ public class DatabaseProvider extends ContentProvider
                         selectionArgs, values);
                 break;
             }
-            case NSCJobCardTable.PATH_TOKEN:
+            case AssetJobCardTable.PATH_TOKEN:
             {
-                result = doUpdate(db, uri, NSCJobCardTable.TABLE_NAME, selection,
+                result = doUpdate(db, uri, AssetJobCardTable.TABLE_NAME, selection,
                         selectionArgs, values);
                 break;
             }

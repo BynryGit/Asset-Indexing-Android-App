@@ -24,8 +24,8 @@ public class WebRequest
 {
     public static String TAG = "WebRequest";
 
-    public static JsonObjectRequest callPostMethod(Context context, String reader_id, JSONObject jsonObject,
-            int request_type, String url, final String label, final ApiServiceCaller caller, final String token)
+    public static JsonObjectRequest callPostMethod(JSONObject jsonObject, int request_type, String url,
+           final String label, final ApiServiceCaller caller, final String token)
     {
 
         if(ApiConstants.LOG_STATUS == 0)

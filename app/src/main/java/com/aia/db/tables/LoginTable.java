@@ -16,7 +16,7 @@ public class LoginTable
 
     public static final String TABLE_NAME = "LoginTable";
     public static final String PATH = "LOGIN_TABLE";
-    public static final int PATH_TOKEN = 11;
+    public static final int PATH_TOKEN = 10;
     public static final Uri CONTENT_URI = ContentDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
     /**
      * This class contains Constants to describe name of Columns of LoginTable

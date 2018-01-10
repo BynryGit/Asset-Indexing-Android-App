@@ -42,7 +42,7 @@
                         android:id="@+id/lbl_first"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/asset_id"
+                        android:text="@string/asset_name"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/text_size_h2" />
 
@@ -74,7 +74,7 @@
                         android:id="@+id/lbl_second"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/asset_name"
+                        android:text="@string/category"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/text_size_h2" />
 
@@ -135,7 +135,7 @@
                         android:id="@+id/lbl_third"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/make_make_no"
+                        android:text="@string/make_no"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/text_size_h2" />
 

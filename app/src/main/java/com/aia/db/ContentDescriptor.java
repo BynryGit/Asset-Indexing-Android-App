@@ -3,8 +3,8 @@ package com.aia.db;
 import android.content.UriMatcher;
 import android.net.Uri;
 
+import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
-import com.aia.db.tables.NSCJobCardTable;
 import com.aia.db.tables.NotificationTable;
 
 
@@ -30,7 +30,7 @@ public class ContentDescriptor
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(AUTHORITY, LoginTable.PATH, LoginTable.PATH_TOKEN);
         matcher.addURI(AUTHORITY, NotificationTable.PATH, NotificationTable.PATH_TOKEN);
-        matcher.addURI(AUTHORITY, NSCJobCardTable.PATH, NSCJobCardTable.PATH_TOKEN);
+        matcher.addURI(AUTHORITY, AssetJobCardTable.PATH, AssetJobCardTable.PATH_TOKEN);
         return matcher;
     }
 }

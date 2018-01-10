@@ -7,8 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
-import com.aia.db.tables.NSCJobCardTable;
 import com.aia.db.tables.NotificationTable;
 import com.aia.models.NotificationCard;
 import com.aia.models.TodayModel;
@@ -21,19 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * This class acts as an interface between database and UI. It contains all the
- * methods to interact with device database.
- *
- * @author Bynry01
- */
-public class DatabaseManager {
-    /**
-     * Save User to Login table
-     *
-     * @param context Context
+public class DatabaseManager
+{
 
-     */
     public static int  cnt;
     public static String pattern = "EEE, d MMM yyyy, HH:mm";
 
@@ -172,45 +162,44 @@ public class DatabaseManager {
     //     NotificationTable Related Methods Ends
 
     //     AssetTable Related Methods Starts
-    public static void saveNSCJobCards(Context mContext, ArrayList<TodayModel> nsc_today) {
-        for(TodayModel todayModel : nsc_today)
+    public static void saveAssetJobCards(Context mContext, ArrayList<TodayModel> todayModels) {
+        for(TodayModel todayModel : todayModels)
         {
-            DatabaseManager.saveNSCJobCardsInfo(mContext, todayModel);
+            DatabaseManager.saveAssetJobCardsInfo(mContext, todayModel);
         }
     }
 
-    private static void saveNSCJobCardsInfo(Context context, TodayModel nsc_today) {
-        if (nsc_today != null) {
-            ContentValues values = getContentValuesNSCJobCardTable(context, nsc_today);
-            String condition = NSCJobCardTable.Cols.COMMISSION_ID + "='" + nsc_today.commission_id + "'";
-            saveValues(context, NSCJobCardTable.CONTENT_URI, values, condition);
+    private static void saveAssetJobCardsInfo(Context context, TodayModel todayModel) {
+        if (todayModel != null) {
+            ContentValues values = getContentValuesNSCJobCardTable(context, todayModel);
+            String condition = AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + todayModel.assetCardId + "'";
+            saveValues(context, AssetJobCardTable.CONTENT_URI, values, condition);
         }
     }
 
-    private static ContentValues getContentValuesNSCJobCardTable(Context context, TodayModel nsc_today) {
+    private static ContentValues getContentValuesNSCJobCardTable(Context context, TodayModel todayModel) {
         ContentValues values = new ContentValues();
         try {
-            values.put(NSCJobCardTable.Cols.USER_LOGIN_ID, AppPreferences.getInstance(context).getString(AppConstants.EMP_ID, ""));
-            values.put(NSCJobCardTable.Cols.ASSET_ID, nsc_today.asset_id != null ? nsc_today.asset_id : "");
-            values.put(NSCJobCardTable.Cols.ASSET_NAME,  nsc_today.asset_name != null ?  nsc_today.asset_name : "");
-            values.put(NSCJobCardTable.Cols.COMMISSION_ID,  nsc_today.commission_id != null ?  nsc_today.commission_id : "");
-            values.put(NSCJobCardTable.Cols.ASSET_AREA,  nsc_today.area != null ?  nsc_today.area : "");
-            values.put(NSCJobCardTable.Cols.ASSET_LOCATION,  nsc_today.location != null ?  nsc_today.location : "");
-            values.put(NSCJobCardTable.Cols.ASSET_CATEGORY,  nsc_today.category != null ? nsc_today.category : "");
-            values.put(NSCJobCardTable.Cols.ASSET_SUBCATEGORY,  nsc_today.subcategory != null ? nsc_today.subcategory : "");
-            values.put(NSCJobCardTable.Cols.CARD_STATUS, AppConstants.CARD_STATUS_OPEN);
-            values.put(NSCJobCardTable.Cols.ASSIGNED_DATE, CommonUtility.getCurrentDate());
+            values.put(AssetJobCardTable.Cols.USER_LOGIN_ID, AppPreferences.getInstance(context).getString(AppConstants.EMP_ID, ""));
+            values.put(AssetJobCardTable.Cols.ASSET_CARD_ID, todayModel.assetCardId != null ? todayModel.assetCardId : "");
+            values.put(AssetJobCardTable.Cols.ASSET_NAME, todayModel.assetName != null ? todayModel.assetName : "");
+            values.put(AssetJobCardTable.Cols.ASSET_CATEGORY,  todayModel.assetCategory != null ? todayModel.assetCategory : "");
+            values.put(AssetJobCardTable.Cols.ASSET_MAKE,  todayModel.assetMake != null ? todayModel.assetMake : "");
+            values.put(AssetJobCardTable.Cols.ASSET_MAKE_NO,  todayModel.assetMakeNo != null ? todayModel.assetMakeNo : "");
+            values.put(AssetJobCardTable.Cols.ASSET_LOCATION,  todayModel.assetLocation != null ?  todayModel.assetLocation : "");
+            values.put(AssetJobCardTable.Cols.ASSET_CARD_STATUS, AppConstants.CARD_STATUS_OPEN);
+            values.put(AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE, CommonUtility.getCurrentDate());
 
         } catch (Exception e) {e.printStackTrace();}
 
         return values;
     }
 
-    public static ArrayList<TodayModel> getNSCJobCards(String userId, String jobCardStatus) {
+    public static ArrayList<TodayModel> getAssetJobCards(String userId, String jobCardStatus) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Select * from " + NSCJobCardTable.TABLE_NAME + " where " + NSCJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND "
-                + NSCJobCardTable.Cols.CARD_STATUS + "='" + jobCardStatus + "'", null);
-        ArrayList<TodayModel> jobCards = getJobCardListFromCursor(cursor);
+        Cursor cursor = db.rawQuery("Select * from " + AssetJobCardTable.TABLE_NAME + " where " + AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND "
+                + AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus + "'", null);
+        ArrayList<TodayModel> jobCards = getAssetJobCardListFromCursor(cursor);
         if (cursor != null) {
             cnt = cursor.getCount();
             cursor.close();
@@ -220,14 +209,14 @@ public class DatabaseManager {
         return jobCards;
     }
 
-    private static ArrayList<TodayModel> getJobCardListFromCursor(Cursor cursor) {
+    private static ArrayList<TodayModel> getAssetJobCardListFromCursor(Cursor cursor) {
         ArrayList<TodayModel> jobCards = null;
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             TodayModel nsc_today_cards;
             jobCards = new ArrayList<>();
             while (!cursor.isAfterLast()) {
-                nsc_today_cards = getJobCardFromCursor(cursor);
+                nsc_today_cards = getAssetJobCardFromCursor(cursor);
                 jobCards.add(nsc_today_cards);
                 cursor.moveToNext();
             }
@@ -238,58 +227,60 @@ public class DatabaseManager {
         return jobCards;
     }
 
-    private static TodayModel getJobCardFromCursor(Cursor cursor) {
-        TodayModel nscTodayCards = new TodayModel();
-        nscTodayCards.asset_id = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_ID)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_ID)) : "";
-        nscTodayCards.commission_id = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.COMMISSION_ID)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.COMMISSION_ID)) : "";
-        nscTodayCards.asset_name = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_NAME)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_NAME)) : "";
-        nscTodayCards.area = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_AREA)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_AREA)) : "";
-        nscTodayCards.location = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_LOCATION)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_LOCATION)) : "";
-        nscTodayCards.category = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_CATEGORY)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_CATEGORY)) : "";
-        nscTodayCards.subcategory = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_SUBCATEGORY)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSET_SUBCATEGORY)) : "";
-        nscTodayCards.assignedDate = cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSIGNED_DATE)) != null ? cursor.getString(cursor.getColumnIndex(NSCJobCardTable.Cols.ASSIGNED_DATE)) : "";
-        return nscTodayCards;
+    private static TodayModel getAssetJobCardFromCursor(Cursor cursor) {
+        TodayModel todayModel = new TodayModel();
+        todayModel.assetCardId = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_ID)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_ID)) : "";
+        todayModel.assetName = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_NAME)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_NAME)) : "";
+        todayModel.assetCategory = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CATEGORY)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CATEGORY)) : "";
+        todayModel.assetMake = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_MAKE)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_MAKE)) : "";
+        todayModel.assetMakeNo = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_MAKE_NO)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_MAKE_NO)) : "";
+        todayModel.assetLocation = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_LOCATION)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_LOCATION)) : "";
+        todayModel.cardStatus = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_STATUS)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_STATUS)) : "";
+        todayModel.assignedDate = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE)) : "";
+        return todayModel;
     }
 
     //  get total count of NSCToday
-    public static int getNSCTodayCount(String userId,String jobCardStatus) {
+    public static int getAssetJobCardCount(String userId, String jobCardStatus) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Select * from " + NSCJobCardTable.TABLE_NAME + " where " + NSCJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND "
-                + NSCJobCardTable.Cols.CARD_STATUS + "='" + jobCardStatus + "'", null);
+        Cursor cursor = db.rawQuery("Select * from " + AssetJobCardTable.TABLE_NAME + " where " +
+                AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " +
+                AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus + "'", null);
         int cnt = cursor.getCount();
         cursor.close();
         return cnt;
     }
 
     //  get total count of NSCToday
-    public static int getNSCTodayCount(String userId, String jobCardStatus, String date) {
+    public static int getAssetJobCardCount(String userId, String jobCardStatus, String date) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Select * from " + NSCJobCardTable.TABLE_NAME + " where " + NSCJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND "
-                + NSCJobCardTable.Cols.CARD_STATUS + "='" + jobCardStatus + "' AND "
-                + NSCJobCardTable.Cols.ASSIGNED_DATE + "='" + date + "'", null);
+        Cursor cursor = db.rawQuery("Select * from " + AssetJobCardTable.TABLE_NAME + " where " +
+                AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " +
+                AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus + "' AND " +
+                AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE + "='" + date + "'", null);
         int cnt = cursor.getCount();
         cursor.close();
         return cnt;
     }
 
     // Update NscTable
-    public static void updateNSCCardStatus(String commissionid,String jobCardStatus) {
+    public static void updateAssetJobCardStatus(String assetCardId, String jobCardStatus) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Update  " + NSCJobCardTable.TABLE_NAME + " set " + NSCJobCardTable.Cols.CARD_STATUS + "='" + jobCardStatus +  " where " + NSCJobCardTable.Cols.COMMISSION_ID + "='" + commissionid + "'", null);
+        Cursor cursor = db.rawQuery("Update  " + AssetJobCardTable.TABLE_NAME + " set " + AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus +  " where " + AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + assetCardId + "'", null);
         cursor.close();
     }
 
     // Nsc Deassign
-    public static void handleReassignDeassignNSC(Context mContext, ArrayList<String> re_de_assigned_jobcards, String user_id) {
-        for (String card_id : re_de_assigned_jobcards) {
-            deleteJobCardNSC(mContext, card_id, user_id);
+    public static void handleReassignAssetJobCard(Context mContext, ArrayList<String> reAssignedJobCards, String userId) {
+        for (String card_id : reAssignedJobCards) {
+            deleteAssetJobCard(mContext, card_id, userId);
         }
     }
 
-    public static void deleteJobCardNSC(Context context, String card_id, String user_id ) {
+    public static void deleteAssetJobCard(Context context, String assetCardId, String userId ) {
         try {
-            String condition = NSCJobCardTable.Cols.USER_LOGIN_ID + "='" + user_id + "' AND " + NSCJobCardTable.Cols.COMMISSION_ID + "='" + card_id + "'";
-            context.getContentResolver().delete(NSCJobCardTable.CONTENT_URI, condition, null);
+            String condition = AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " + AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + assetCardId + "'";
+            context.getContentResolver().delete(AssetJobCardTable.CONTENT_URI, condition, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -74,8 +74,9 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
         {
             return;
         }
-        String imeiNumber = telephonyManager.getDeviceId();
-        if (CommonUtility.getInstance(this).checkConnectivity(mContext))
+//        String imeiNumber = telephonyManager.getDeviceId();
+        String imeiNumber = "911555000227422";
+        if (CommonUtility.checkConnectivity(mContext))
         {
             showLoadingDialog();
             try
@@ -84,7 +85,7 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
                 jsonObject.put("username", userId);
                 jsonObject.put("password", userPass);
                 jsonObject.put("imei_no", imeiNumber);
-                JsonObjectRequest request = WebRequest.callPostMethod(mContext, "", jsonObject, Request.Method.POST, ApiConstants.LOGIN_URL,
+                JsonObjectRequest request = WebRequest.callPostMethod(jsonObject, Request.Method.POST, ApiConstants.LOGIN_URL,
                         ApiConstants.LOGIN, this, "");
                 App.getInstance().addToRequestQueue(request, ApiConstants.LOGIN);
 

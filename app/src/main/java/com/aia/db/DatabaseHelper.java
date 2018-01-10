@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.aia.db.tables.NSCJobCardTable;
+import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
 import com.aia.db.tables.NotificationTable;
 
@@ -60,18 +60,17 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     private void createNSCJobCardTable(SQLiteDatabase db)
     {
-        String NSCJobCardTableFields = NSCJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                NSCJobCardTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
-                NSCJobCardTable.Cols.ASSET_ID + " VARCHAR, " +
-                NSCJobCardTable.Cols.ASSET_NAME + " VARCHAR, " +
-                NSCJobCardTable.Cols.COMMISSION_ID + " VARCHAR, " +
-                NSCJobCardTable.Cols.ASSET_CATEGORY + " VARCHAR, " +
-                NSCJobCardTable.Cols.ASSET_SUBCATEGORY + " VARCHAR, " +
-                NSCJobCardTable.Cols.ASSET_AREA + " VARCHAR, " +
-                NSCJobCardTable.Cols.CARD_STATUS + " VARCHAR, " +
-                NSCJobCardTable.Cols.ASSET_LOCATION + " VARCHAR, " +
-                NSCJobCardTable.Cols.ASSIGNED_DATE + " VARCHAR";
-        createTable(db, NSCJobCardTable.TABLE_NAME, NSCJobCardTableFields);
+        String NSCJobCardTableFields = AssetJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                AssetJobCardTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_CARD_ID + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_NAME + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_CATEGORY + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_MAKE + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_MAKE_NO + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_LOCATION + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_CARD_STATUS + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE + " VARCHAR";
+        createTable(db, AssetJobCardTable.TABLE_NAME, NSCJobCardTableFields);
     }
 
     private void createNotificationTable(SQLiteDatabase db)

@@ -1,6 +1,9 @@
 package com.aia.webservices;
 
+import com.aia.models.TodayModel;
 import com.aia.models.UserProfileModel;
+
+import java.util.ArrayList;
 
 public class JsonResponse
 {
@@ -13,6 +16,7 @@ public class JsonResponse
 
     //ArrayList's Models
     public UserProfileModel responsedata;
+    public ArrayList<TodayModel> asset_cards;
 
 
 }

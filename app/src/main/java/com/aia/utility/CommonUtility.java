@@ -66,7 +66,7 @@ public class CommonUtility
         return android.util.Patterns.PHONE.matcher(number).matches();
     }
 
-    public boolean checkConnectivity(Context pContext)
+    public static boolean checkConnectivity(Context pContext)
     {
         ConnectivityManager lConnectivityManager = (ConnectivityManager)
                 pContext.getSystemService(Context.CONNECTIVITY_SERVICE);

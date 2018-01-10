@@ -6,13 +6,13 @@ import com.aia.db.ContentDescriptor;
 
 /**
  * This class describes all necessary info
- * about the NSCJobCardTable of device database
+ * about the AssetJobCardTable of device database
  *
  * @author Bynry01
  */
-public class NSCJobCardTable
+public class AssetJobCardTable
 {
-    public static final String TABLE_NAME = "NSCJobCardTable";
+    public static final String TABLE_NAME = "AssetJobCardTable";
     public static final String PATH = "NSC_JOB_CARD_TABLE";
     public static final int PATH_TOKEN = 20;
     public static final Uri CONTENT_URI = ContentDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
@@ -25,14 +25,13 @@ public class NSCJobCardTable
     {
         public static final String ID = "_id";
         public static final String USER_LOGIN_ID = "user_login_id";
-        public static final String COMMISSION_ID = "commission_id";
-        public static final String ASSET_ID = "asset_id";
+        public static final String ASSET_CARD_ID = "asset_card_id";
         public static final String ASSET_NAME = "asset_name";
-        public static final String ASSET_AREA = "asset_area";
         public static final String ASSET_LOCATION = "asset_location";
         public static final String ASSET_CATEGORY = "asset_category";
-        public static final String ASSET_SUBCATEGORY = "asset_subcategory";
-        public static final String CARD_STATUS = "card_status";
-        public static final String ASSIGNED_DATE = "assigned_date";
+        public static final String ASSET_MAKE_NO = "asset_make_no";
+        public static final String ASSET_MAKE = "asset_make";
+        public static final String ASSET_CARD_STATUS = "card_status";
+        public static final String ASSET_ASSIGNED_DATE = "assigned_date";
     }
 }

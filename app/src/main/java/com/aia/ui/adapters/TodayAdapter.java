@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.aia.R;
 import com.aia.models.TodayModel;
+import com.aia.utility.AppConstants;
 import com.aia.utility.CommonUtility;
 
 import java.util.ArrayList;
@@ -41,17 +42,17 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayHolder>
     @Override
     public void onBindViewHolder(TodayHolder holder, final int position)
     {
-        CommonUtility.setAnimation(holder.itemView, position, -1, mContext);
+        CommonUtility.setAnimation(holder.itemView, position, AppConstants.LAST_POSITION, mContext);
 
-        holder.lblFirst.setText(R.string.asset_name);
+        /*holder.lblFirst.setText(R.string.asset_name);
         holder.lblSecond.setText(R.string.category);
-        holder.lblThird.setText(R.string.area);
-        holder.lblFourth.setText(R.string.location);
+        holder.lblThird.setText(R.string.make_no);
+        holder.lblFourth.setText(R.string.location);*/
 
-        holder.txtFirst.setText(mTodayModelCards.get(position).getAsset_name());
-        holder.txtSecond.setText(mTodayModelCards.get(position).getCategory());
-        holder.txtThird.setText(mTodayModelCards.get(position).getArea());
-        holder.txtFourth.setText(mTodayModelCards.get(position).getLocation());
+        holder.txtFirst.setText(mTodayModelCards.get(position).getAssetName());
+        holder.txtSecond.setText(mTodayModelCards.get(position).getAssetCategory());
+        holder.txtThird.setText(mTodayModelCards.get(position).getAssetMakeNo());
+        holder.txtFourth.setText(mTodayModelCards.get(position).getAssetLocation());
 
         holder.cardView.setOnClickListener(new View.OnClickListener()
         {

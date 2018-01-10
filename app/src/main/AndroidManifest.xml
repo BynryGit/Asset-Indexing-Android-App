@@ -79,11 +79,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.LandingActivity"
-            android:label="@string/title_activity_landing"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".ui.activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -110,6 +105,7 @@
             android:name=".db.DatabaseProvider"
             android:authorities="com.aia" />
 
+        <activity android:name=".ui.activities.LandingActivity"></activity>
     </application>
 
 </manifest>

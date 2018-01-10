@@ -17,6 +17,7 @@ public class AppConstants
     public static final int PERMISSION_READ_STORAGE = 4;
     public static final int PERMISSION_CAMERA = 5;
     public static int ALL_PERMISSIONS_RESULT = 55;
+    public static int LAST_POSITION = -1;
     public static int ZERO = 0;
     public static int ONE = 1;
 
@@ -31,7 +32,7 @@ public class AppConstants
     //Constant String Values
     public static String API_FAIL_MESSAGE = "Something went wrong";
     public static String CARD_STATUS_OPEN = "Open";
-    public static String CARD_STATUS_CLOSED = "Closed";
+    public static String CARD_STATUS_CLOSED = "Completed";
 
     //String Values
 

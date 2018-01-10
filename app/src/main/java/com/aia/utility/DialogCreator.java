@@ -3,6 +3,7 @@ package com.aia.utility;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,25 +16,23 @@ import com.aia.R;
 
 public class DialogCreator
 {
-    /*public static void showMessageDialog(Context mContext, String message, String mImageDisplay)
+    public static void showMessageDialog(Context mContext, String message, String mImageDisplay)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View promptView = layoutInflater.inflate(R.layout.dialog_without_title, null);
+        View promptView = layoutInflater.inflate(R.layout.dialog_with_title, null);
         final AlertDialog alert = new AlertDialog.Builder(mContext).create();
-        ImageView imageView = (ImageView)promptView.findViewById(R.id.image_view);
-        if(mImageDisplay.equals("error"))
-        {
-            imageView.setImageResource(R.drawable.high_importance);
-        }
+        Typeface fontRegular = App.getFontRegular();
+        ImageView imageView = promptView.findViewById(R.id.image_view);
+        if(mImageDisplay.equals(CommonUtility.getString(mContext, R.string.error)))
+            imageView.setImageResource(R.drawable.ic_action_warning);
         else
-        {
-            imageView.setImageResource(R.drawable.checked_green);
-        }
+            imageView.setImageResource(R.drawable.ic_action_success);
+
         TextView msg = promptView.findViewById(R.id.tv_msg);
-//        msg.setTypeface(regular);
+        msg.setTypeface(fontRegular);
         msg.setText(message);
         Button ok = promptView.findViewById(R.id.btn_ok);
-//        ok.setTypeface(regular);
+        ok.setTypeface(fontRegular);
         ok.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
@@ -43,21 +42,22 @@ public class DialogCreator
         });
         alert.setView(promptView);
         alert.show();
-    }*/
+    }
     
     public static void showExitDialog(final Activity activity, String title, String message, final String screenName)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
-        View promptView = layoutInflater.inflate(R.layout.dialog_with_title, null);
+        View promptView = layoutInflater.inflate(R.layout.dialog_with_title_sub_title, null);
         final AlertDialog alert = new AlertDialog.Builder(activity).create();
+        Typeface fontRegular = App.getFontRegular(), fontItalic = App.getFontItalic();
         TextView txtTitle = promptView.findViewById(R.id.tv_title);
-//        txtTitle.setTypeface(regular);
+        txtTitle.setTypeface(fontItalic);
         txtTitle.setText(title);
         TextView txtSubTitle = promptView.findViewById(R.id.tv_msg);
-//        txtSubTitle.setTypeface(regular);
+        txtSubTitle.setTypeface(fontRegular);
         txtSubTitle.setText(message);
         Button yes = promptView.findViewById(R.id.btn_yes);
-//        yes.setTypeface(regular);
+        yes.setTypeface(fontRegular);
         yes.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
@@ -72,7 +72,7 @@ public class DialogCreator
         });
 
         Button no = promptView.findViewById(R.id.btn_no);
-//        no.setTypeface(regular);
+        no.setTypeface(fontRegular);
         no.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)

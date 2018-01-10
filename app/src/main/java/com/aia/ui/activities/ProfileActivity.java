@@ -27,7 +27,6 @@ import com.aia.interfaces.ApiServiceCaller;
 import com.aia.utility.AppConstants;
 import com.aia.utility.AppPreferences;
 import com.aia.utility.CommonUtility;
-import com.aia.webservices.ApiConstants;
 import com.aia.webservices.JsonResponse;
 
 import org.json.JSONException;
@@ -170,7 +169,7 @@ public class ProfileActivity extends ParentActivity implements View.OnClickListe
 
         Intent intent = new Intent(mContext, LoginActivity.class);
         startActivity(intent);
-//        LandingActivity.activity.finish();
+        LandingActivity.activity.finish();
         finish();
     }
     public void loadImageFromGallery()
@@ -242,29 +241,6 @@ public class ProfileActivity extends ParentActivity implements View.OnClickListe
     public void onAsyncSuccess(JsonResponse jsonResponse, String label) {
 
         switch (label) {
-            case ApiConstants.LOGOUT: {
-                if (jsonResponse != null) {
-                    if (jsonResponse.SUCCESS != null && jsonResponse.result.equals(jsonResponse.SUCCESS)) {
-                        try {
-                            dismissLoadingDialog();
-                            Intent intent = new Intent(this, LoginActivity.class);
-                            startActivity(intent);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    } else {
-
-                        if (jsonResponse.result != null && jsonResponse.result.equals(JsonResponse.FAILURE)) {
-                            dismissLoadingDialog();
-                            Toast.makeText(this, jsonResponse.message,
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-            }
-            break;
         }
 
     }
@@ -273,22 +249,12 @@ public class ProfileActivity extends ParentActivity implements View.OnClickListe
     @Override
     public void onAsyncFail(String message, String label, NetworkResponse response) {
         switch (label) {
-            case ApiConstants.LOGOUT: {
-                Toast.makeText(this, AppConstants.API_FAIL_MESSAGE,
-                        Toast.LENGTH_LONG).show();
-            }
-            break;
         }
     }
 
     @Override
     public void onAsyncCompletelyFail(String message, String label) {
         switch (label) {
-            case ApiConstants.LOGOUT: {
-                Toast.makeText(this, AppConstants.API_FAIL_MESSAGE,
-                        Toast.LENGTH_LONG).show();
-            }
-            break;
         }
     }
 }

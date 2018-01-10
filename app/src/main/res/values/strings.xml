@@ -42,6 +42,7 @@
     <string name="no">No</string>
     <string name="ok">Ok</string>
     <string name="submit">Submit</string>
+    <string name="error">Error</string>
     <!--Text on Dialogs Ends-->
 
     <!--Dummy Text Starts-->
@@ -61,11 +62,11 @@
     <string name="dummy_inspection_type">Transformer Damage</string>
     <string name="dummy_breakdown_type">BreakDown</string>
     <!--Dummy Text Ends-->
-    
+
     <!--Text on Cards Starts-->
     <string name="asset_id">Asset Id</string>
     <string name="asset_name">Asset Name</string>
-    <string name="make_make_no">Make/Make No</string>
+    <string name="make_no">Make Number</string>
     <string name="location">Location</string>
     <!--Text on Cards Ends-->
 
@@ -79,7 +80,7 @@
     <string name="error_reading_parameters">Please Enter Reading</string>
     <string name="error_please_contact_server_admin">Your username and phone id does not match, Please contact admin.</string>
     <!--All Errors related messages ends-->
-    
+
     <!--Empty Screen Messages Starts-->
     <string name="consumer_info_not_assigned_to_you">Consumer info not Assigned to you!</string>
     <string name="no_data_available">No data Available</string>
