@@ -91,7 +91,7 @@ public class IncomingSms extends BroadcastReceiver
             }
 
             // Dump the entire message
-             Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+             Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
             Log.d(TAG, str);
         }
     }*/

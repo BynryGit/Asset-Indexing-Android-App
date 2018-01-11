@@ -40,7 +40,7 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
     private String userId, userPass;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) 
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -95,7 +95,7 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
         }
         else
         {
-            Toast.makeText(mContext, getString(R.string.error_internet_not_connected), Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, getString(R.string.error_internet_not_connected), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -107,9 +107,9 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
             if(!TextUtils.isEmpty(userPass))
             {
                 if(userPass.length()>=6)
-                   doLogin();
+                    doLogin();
                 else
-                   edtPassword.setError(getString(R.string.password_should_have_at_least_characters));
+                    edtPassword.setError(getString(R.string.password_should_have_at_least_characters));
             }
             else
                 edtPassword.setError(getString(R.string.please_enter_password));
@@ -120,13 +120,20 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
     }
 
     @Override
-    public void onAsyncSuccess(JsonResponse jsonResponse, String label) {
-        switch (label) {
-            case ApiConstants.LOGIN: {
-                if (jsonResponse != null) {
-                    if (jsonResponse.SUCCESS != null && jsonResponse.result.equals(jsonResponse.SUCCESS)) {
-                        if (jsonResponse.responsedata != null) {
-                            try {
+    public void onAsyncSuccess(JsonResponse jsonResponse, String label)
+    {
+        switch (label)
+        {
+            case ApiConstants.LOGIN:
+            {
+                if (jsonResponse != null)
+                {
+                    if (jsonResponse.SUCCESS != null && jsonResponse.result.equals(jsonResponse.SUCCESS))
+                    {
+                        if (jsonResponse.responsedata != null)
+                        {
+                            try
+                            {
                                 dismissLoadingDialog();
                                 UserProfileModel userProfileModel = new UserProfileModel();
                                 userProfileModel.user_id = jsonResponse.responsedata.getUser_id();
@@ -157,7 +164,7 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
                         if (jsonResponse.result != null && jsonResponse.result.equals(JsonResponse.FAILURE))
                         {
                             dismissLoadingDialog();
-                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -167,22 +174,29 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
     }
 
     @Override
-    public void onAsyncFail(String message, String label, NetworkResponse response) {
-        switch (label) {
-            case ApiConstants.LOGIN: {
+    public void onAsyncFail(String message, String label, NetworkResponse response)
+    {
+        dismissLoadingDialog();
+        switch (label)
+        {
+            case ApiConstants.LOGIN:
+            {
                 dismissLoadingDialog();
-                Toast.makeText(mContext, AppConstants.API_FAIL_MESSAGE, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
             }
             break;
         }
     }
 
     @Override
-    public void onAsyncCompletelyFail(String message, String label) {
-        switch (label) {
-            case ApiConstants.LOGIN: {
-                dismissLoadingDialog();
-                Toast.makeText(mContext, AppConstants.API_FAIL_MESSAGE, Toast.LENGTH_SHORT).show();
+    public void onAsyncCompletelyFail(String message, String label)
+    {
+        dismissLoadingDialog();
+        switch (label)
+        {
+            case ApiConstants.LOGIN:
+            {
+                Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
             }
             break;
         }

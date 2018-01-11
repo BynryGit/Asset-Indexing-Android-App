@@ -33,6 +33,7 @@
     <string name="my_profile">My Profile</string>
     <string name="notification">Notification</string>
     <string name="action_settings">Settings</string>
+    <string name="asset_details">Asset Details</string>
     <!--Text Screen Names Ends-->
 
     <!--Text on Dialogs Starts-->
@@ -70,7 +71,15 @@
     <string name="location">Location</string>
     <!--Text on Cards Ends-->
 
+    <!--Text on AssetDetailsActivity Starts-->
+    <string name="checking_parameters">Checking Parameters</string>
+    <string name="asset_image">Asset Image</string>
+    <string name="reading_parameters">Reading Parameters</string>
+    <string name="select_sub_division">Select Sub-Division</string>
+    <!--Text on AssetDetailsActivity Ends-->
+
     <!--All Errors related messages starts-->
+    <string name="api_fail_message">Something went wrong. Please try again later</string>
     <string name="error_internet_not_connected">Please Check Your Internet Connection</string>
     <string name="error_you_have_not_picked_image">You haven\'t picked Image</string>
     <string name="password_should_have_at_least_characters">Password should have at least 6 characters</string>

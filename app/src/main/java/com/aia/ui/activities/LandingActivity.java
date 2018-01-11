@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.aia.R;
 import com.aia.db.DatabaseManager;
 import com.aia.interfaces.ApiServiceCaller;
-import com.aia.models.TodayModel;
-import com.aia.ui.adapters.TodayAdapter;
+import com.aia.models.AssetJobCardModel;
+import com.aia.ui.adapters.AssetJobCardAdapter;
 import com.aia.utility.App;
 import com.aia.utility.AppConstants;
 import com.aia.utility.AppPreferences;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 
 public class LandingActivity extends ParentActivity implements View.OnClickListener, ApiServiceCaller
 {
-
     private Context mContext;
     private Toolbar toolbar;
     private TextView txtTitle;
@@ -49,9 +48,9 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
     private Intent intent;
     private Typeface fontBold, fontRegular, fontItalic;
     public static Activity activity;
-    private Button btnOpen, btnCompleted, btnTotal;
-    private TextView txtOpenToday, txtCompletedToday, txtTotalHistory;
-    private boolean isOpen, isCompleted;
+    private Button btnTotal, btnOpen, btnCompleted, btnHistory;
+    private TextView txtTotal, txtOpen, txtCompleted, txtHistory;
+    private boolean isOpen, isCompleted, isHistory;
     private String userId = "";
 
     @Override
@@ -74,7 +73,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         floatingSearch = findViewById(R.id.fab);
         floatingSearch.setOnClickListener(this);
         
-        recyclerView = findViewById(R.id.recycler_view_today);
+        recyclerView = findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
@@ -94,28 +93,32 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
             }
         });
 
-        isOpen = true; isCompleted = false;
+        isOpen = true; isCompleted = false; isHistory = false;
 
         txtTitle = findViewById(R.id.txt_name);
         txtTitle.setTypeface(fontBold);
         txtTitle.setText(AppPreferences.getInstance(mContext).getString(AppConstants.USER_NAME, AppConstants.BLANK_STRING));
 
-        txtOpenToday = findViewById(R.id.txt_open_today);
-        txtOpenToday.setTypeface(fontRegular);
-        txtCompletedToday = findViewById(R.id.txt_completed_today);
-        txtCompletedToday.setTypeface(fontRegular);
-        txtTotalHistory = findViewById(R.id.txt_total);
-        txtTotalHistory.setTypeface(fontRegular);
+        txtTotal = findViewById(R.id.txt_total);
+        txtTotal.setTypeface(fontRegular);
+        txtOpen = findViewById(R.id.txt_open);
+        txtOpen.setTypeface(fontRegular);
+        txtCompleted = findViewById(R.id.txt_completed);
+        txtCompleted.setTypeface(fontRegular);
+        txtHistory = findViewById(R.id.txt_history);
+        txtHistory.setTypeface(fontRegular);
 
-        btnOpen = findViewById(R.id.btn_open_today);
-        btnOpen.setTypeface(fontItalic);
-        btnOpen.setOnClickListener(this);
-        btnCompleted = findViewById(R.id.btn_completed_today);
-        btnCompleted.setTypeface(fontItalic);
-        btnCompleted.setOnClickListener(this);
         btnTotal = findViewById(R.id.btn_total);
         btnTotal.setTypeface(fontItalic);
-        btnTotal.setOnClickListener(this);
+        btnOpen = findViewById(R.id.btn_open);
+        btnOpen.setTypeface(fontItalic);
+        btnOpen.setOnClickListener(this);
+        btnCompleted = findViewById(R.id.btn_completed);
+        btnCompleted.setTypeface(fontItalic);
+        btnCompleted.setOnClickListener(this);
+        btnHistory = findViewById(R.id.btn_history);
+        btnHistory.setTypeface(fontItalic);
+        btnHistory.setOnClickListener(this);
 
         linearProfile = findViewById(R.id.linear_profile);
         linearProfile.setOnClickListener(this);
@@ -126,17 +129,39 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
 
     private void refreshCount()
     {
-        ArrayList<TodayModel> todayModels = DatabaseManager.getAssetJobCards(userId, AppConstants.CARD_STATUS_OPEN);
-        TodayAdapter todayAdapter = new TodayAdapter(mContext, todayModels);
-        recyclerView.setAdapter(todayAdapter);
+        ArrayList<AssetJobCardModel> todayModels = new ArrayList<>();
+
+        if(isOpen)
+        {
+            todayModels = DatabaseManager.getAssetJobCards(userId, AppConstants.CARD_STATUS_OPEN);
+            btnOpen.setBackgroundResource(R.drawable.ripple_oval_selected);
+            btnCompleted.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+            btnHistory.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+        }
+        else if(isCompleted)
+        {
+            todayModels = DatabaseManager.getAssetJobCards(userId, AppConstants.CARD_STATUS_CLOSED);
+            btnOpen.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+            btnCompleted.setBackgroundResource(R.drawable.ripple_oval_selected);
+            btnHistory.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+        }
+        else if(isHistory)
+        {
+            todayModels = DatabaseManager.getAssetJobCards(userId, AppConstants.CARD_STATUS_OPEN);
+            btnOpen.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+            btnCompleted.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+            btnHistory.setBackgroundResource(R.drawable.ripple_oval_selected);
+        }
+
+        AssetJobCardAdapter assetJobCardAdapter = new AssetJobCardAdapter(mContext, todayModels);
+        recyclerView.setAdapter(assetJobCardAdapter);
 
         int todayOpenCount =  DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_OPEN);
         int todayCompletedCount = DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_CLOSED);
-        int historyCompletedCount = DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_CLOSED);
 
+        btnTotal.setText(""+(todayOpenCount + todayCompletedCount));
         btnOpen.setText(""+todayOpenCount);
         btnCompleted.setText(""+todayCompletedCount);
-        btnTotal.setText(""+(todayOpenCount + historyCompletedCount));
     }
 
     @Override
@@ -156,21 +181,20 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
 
         if(v == btnOpen)
         {
-            isOpen = true; isCompleted = false;
-            btnOpen.setBackgroundResource(R.drawable.ripple_oval_selected);
-            btnCompleted.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+            isOpen = true; isCompleted = false; isHistory = false;
+            refreshCount();
         }
 
         if(v == btnCompleted)
         {
-            isOpen = false; isCompleted = true;
-            btnOpen.setBackgroundResource(R.drawable.ripple_oval_un_selected);
-            btnCompleted.setBackgroundResource(R.drawable.ripple_oval_selected);
+            isOpen = false; isCompleted = true; isHistory = false;
+            refreshCount();
         }
 
-        if(v == btnTotal)
+        if(v == btnHistory)
         {
-            isOpen = false; isCompleted = false;
+            isOpen = false; isCompleted = false; isHistory = true;
+            refreshCount();
         }
     }
 
@@ -204,21 +228,32 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         {
             showLoadingDialog();
             String token = AppPreferences.getInstance(mContext).getString(AppConstants.AUTH_TOKEN, AppConstants.BLANK_STRING);
-            JsonObjectRequest request = WebRequest.callPostMethod(null, Request.Method.GET, ApiConstants.GET_ASSET_CARD_URL,
-                    ApiConstants.GET_ASSET_CARD, this, token);
-            App.getInstance().addToRequestQueue(request, ApiConstants.GET_ASSET_CARD);
+            JsonObjectRequest request = WebRequest.callPostMethod(null, Request.Method.GET, ApiConstants.GET_ASSIGNED_ASSET_CARD_URL,
+                    ApiConstants.GET_ASSIGNED_ASSET_CARD, this, token);
+            App.getInstance().addToRequestQueue(request, ApiConstants.GET_ASSIGNED_ASSET_CARD);
         }
         else
         {
             dismissLoadingDialog();
-            DialogCreator.showMessageDialog(this, getString(R.string.error_internet_not_connected), getString(R.string.error));
+            DialogCreator.showMessageDialog(mContext, getString(R.string.error_internet_not_connected), getString(R.string.error));
         }
-
     }
 
     private void removeJobCards()
     {
-
+        if (CommonUtility.checkConnectivity(mContext))
+        {
+            showLoadingDialog();
+            String token = AppPreferences.getInstance(mContext).getString(AppConstants.AUTH_TOKEN, AppConstants.BLANK_STRING);
+            JsonObjectRequest request = WebRequest.callPostMethod(null, Request.Method.GET, ApiConstants.GET_DE_ASSIGNED_ASSET_CARD_URL,
+                    ApiConstants.GET_DE_ASSIGNED_ASSET_CARD, this, token);
+            App.getInstance().addToRequestQueue(request, ApiConstants.GET_DE_ASSIGNED_ASSET_CARD);
+        }
+        else
+        {
+            dismissLoadingDialog();
+            DialogCreator.showMessageDialog(mContext, getString(R.string.error_internet_not_connected), getString(R.string.error));
+        }
     }
 
     @Override
@@ -226,10 +261,11 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
     {
         switch (label)
         {
-            case ApiConstants.GET_ASSET_CARD:
+            case ApiConstants.GET_ASSIGNED_ASSET_CARD:
             {
                 if (jsonResponse != null)
                 {
+                    dismissLoadingDialog();
                     if (jsonResponse.SUCCESS != null && jsonResponse.result.equals(jsonResponse.SUCCESS))
                     {
                         if (jsonResponse.asset_cards.size() > 0)
@@ -238,25 +274,58 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
                             {
                                 if(jsonResponse.asset_cards.get(0).assetCardId != null)
                                 {
-                                    dismissLoadingDialog();
                                     DatabaseManager.saveAssetJobCards(mContext, jsonResponse.asset_cards);
-                                    Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_LONG).show();
-                                    isOpen = true; isCompleted = false;
+                                    Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                                    isOpen = true; isCompleted = false; isHistory = false;
+                                    refreshCount();
                                 }
                             } catch(Exception e) {e.printStackTrace();}
                         }
                         else
-                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         if (jsonResponse.result != null && jsonResponse.result.equals(JsonResponse.FAILURE))
                         {
-                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
                 removeJobCards();
+            }
+            break;
+            case ApiConstants.GET_DE_ASSIGNED_ASSET_CARD:
+            {
+                if (jsonResponse != null)
+                {
+                    dismissLoadingDialog();
+                    if (jsonResponse.SUCCESS != null && jsonResponse.result.equals(jsonResponse.SUCCESS))
+                    {
+                        if (jsonResponse.deassign_request_list.size() > 0)
+                        {
+                            try
+                            {
+                                if(jsonResponse.deassign_request_list != null)
+                                {
+                                    DatabaseManager.handleDeassignAssetJobCard(mContext, jsonResponse.deassign_request_list, userId);
+                                    Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                                    isOpen = true; isCompleted = false; isHistory = false;
+                                    refreshCount();
+                                }
+                            } catch(Exception e) {e.printStackTrace();}
+                        }
+                        else
+                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        if (jsonResponse.result != null && jsonResponse.result.equals(JsonResponse.FAILURE))
+                        {
+                            Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
             }
             break;
         }
@@ -265,32 +334,34 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
     @Override
     public void onAsyncFail(String message, String label, NetworkResponse response)
     {
+        dismissLoadingDialog();
         switch (label) {
-            case ApiConstants.GET_ASSET_CARD: {
-                Toast.makeText(mContext, AppConstants.API_FAIL_MESSAGE, Toast.LENGTH_LONG).show();
+            case ApiConstants.GET_ASSIGNED_ASSET_CARD: {
+                Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
                 removeJobCards();
             }
             break;
-            /*case ApiConstants.DISC_TODAY_CARDS: {
-                Toast.makeText(mContext, AppConstants.API_FAIL_MESSAGE, Toast.LENGTH_LONG).show();
+            case ApiConstants.GET_DE_ASSIGNED_ASSET_CARD: {
+                Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
             }
-            break;*/
+            break;
         }
     }
 
     @Override
     public void onAsyncCompletelyFail(String message, String label)
     {
+        dismissLoadingDialog();
         switch (label) {
-            case ApiConstants.GET_ASSET_CARD: {
-                Toast.makeText(mContext, AppConstants.API_FAIL_MESSAGE, Toast.LENGTH_LONG).show();
+            case ApiConstants.GET_ASSIGNED_ASSET_CARD: {
+                Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
                 removeJobCards();
             }
             break;
-            /*case ApiConstants.DISC_TODAY_CARDS: {
-                Toast.makeText(mContext, AppConstants.API_FAIL_MESSAGE, Toast.LENGTH_LONG).show();
+            case ApiConstants.GET_DE_ASSIGNED_ASSET_CARD: {
+                Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
             }
-            break;*/
+            break;
         }
     }
 }

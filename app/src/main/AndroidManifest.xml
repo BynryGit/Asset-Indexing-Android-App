@@ -105,7 +105,8 @@
             android:name=".db.DatabaseProvider"
             android:authorities="com.aia" />
 
-        <activity android:name=".ui.activities.LandingActivity"></activity>
+        <activity android:name=".ui.activities.LandingActivity" />
+        <activity android:name=".ui.activities.AssetDetailsActivity"></activity>
     </application>
 
 </manifest>

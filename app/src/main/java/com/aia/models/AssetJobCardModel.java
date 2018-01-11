@@ -6,10 +6,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class TodayModel implements Serializable
+public class AssetJobCardModel implements Serializable
 {
 
-    public TodayModel() {}
+    public AssetJobCardModel() {}
 
     @SerializedName("jc_id")
     public String assetCardId;

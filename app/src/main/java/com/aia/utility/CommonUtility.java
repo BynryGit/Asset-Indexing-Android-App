@@ -133,7 +133,7 @@ public class CommonUtility
 
    /* public static void showPostPermissionsShackBar(final Context context, RelativeLayout ll_mail_view, final ArrayList<String> permissionsRejected) {
         Snackbar snackBarView = Snackbar
-                .make(ll_mail_view, String.valueOf(permissionsRejected.size()) + "SnakeBar", Snackbar.LENGTH_LONG)
+                .make(ll_mail_view, String.valueOf(permissionsRejected.size()) + "SnakeBar", Snackbar.LENGTH_SHORT)
                 .setAction("SnakeBar", new View.OnClickListener()
                 {
                     @Override

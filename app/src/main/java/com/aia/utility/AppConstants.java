@@ -30,12 +30,10 @@ public class AppConstants
 
 
     //Constant String Values
-    public static String API_FAIL_MESSAGE = "Something went wrong";
     public static String CARD_STATUS_OPEN = "Open";
     public static String CARD_STATUS_CLOSED = "Completed";
 
     //String Values
-
     public static String MOBILE_NO = "mobile_no";
     public static String USER_NAME = "user_name";
     public static String USER_CITY = "user_city";
@@ -43,5 +41,5 @@ public class AppConstants
     public static String PROFILE_IMAGE_URL = "image_url";
     public static String AUTH_TOKEN = "auth_token";
 
-    public static String COMING_FROM = "coming_from";
+    public static String JOB_CARD_ID = "job_card_id";
 }

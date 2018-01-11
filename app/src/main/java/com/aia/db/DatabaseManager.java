@@ -11,7 +11,7 @@ import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
 import com.aia.db.tables.NotificationTable;
 import com.aia.models.NotificationCard;
-import com.aia.models.TodayModel;
+import com.aia.models.AssetJobCardModel;
 import com.aia.models.UserProfileModel;
 import com.aia.utility.AppConstants;
 import com.aia.utility.AppPreferences;
@@ -162,14 +162,14 @@ public class DatabaseManager
     //     NotificationTable Related Methods Ends
 
     //     AssetTable Related Methods Starts
-    public static void saveAssetJobCards(Context mContext, ArrayList<TodayModel> todayModels) {
-        for(TodayModel todayModel : todayModels)
+    public static void saveAssetJobCards(Context mContext, ArrayList<AssetJobCardModel> todayModels) {
+        for(AssetJobCardModel todayModel : todayModels)
         {
             DatabaseManager.saveAssetJobCardsInfo(mContext, todayModel);
         }
     }
 
-    private static void saveAssetJobCardsInfo(Context context, TodayModel todayModel) {
+    private static void saveAssetJobCardsInfo(Context context, AssetJobCardModel todayModel) {
         if (todayModel != null) {
             ContentValues values = getContentValuesNSCJobCardTable(context, todayModel);
             String condition = AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + todayModel.assetCardId + "'";
@@ -177,7 +177,7 @@ public class DatabaseManager
         }
     }
 
-    private static ContentValues getContentValuesNSCJobCardTable(Context context, TodayModel todayModel) {
+    private static ContentValues getContentValuesNSCJobCardTable(Context context, AssetJobCardModel todayModel) {
         ContentValues values = new ContentValues();
         try {
             values.put(AssetJobCardTable.Cols.USER_LOGIN_ID, AppPreferences.getInstance(context).getString(AppConstants.EMP_ID, ""));
@@ -195,11 +195,11 @@ public class DatabaseManager
         return values;
     }
 
-    public static ArrayList<TodayModel> getAssetJobCards(String userId, String jobCardStatus) {
+    public static ArrayList<AssetJobCardModel> getAssetJobCards(String userId, String jobCardStatus) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + AssetJobCardTable.TABLE_NAME + " where " + AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND "
                 + AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus + "'", null);
-        ArrayList<TodayModel> jobCards = getAssetJobCardListFromCursor(cursor);
+        ArrayList<AssetJobCardModel> jobCards = getAssetJobCardListFromCursor(cursor);
         if (cursor != null) {
             cnt = cursor.getCount();
             cursor.close();
@@ -209,11 +209,11 @@ public class DatabaseManager
         return jobCards;
     }
 
-    private static ArrayList<TodayModel> getAssetJobCardListFromCursor(Cursor cursor) {
-        ArrayList<TodayModel> jobCards = null;
+    private static ArrayList<AssetJobCardModel> getAssetJobCardListFromCursor(Cursor cursor) {
+        ArrayList<AssetJobCardModel> jobCards = null;
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            TodayModel nsc_today_cards;
+            AssetJobCardModel nsc_today_cards;
             jobCards = new ArrayList<>();
             while (!cursor.isAfterLast()) {
                 nsc_today_cards = getAssetJobCardFromCursor(cursor);
@@ -227,8 +227,8 @@ public class DatabaseManager
         return jobCards;
     }
 
-    private static TodayModel getAssetJobCardFromCursor(Cursor cursor) {
-        TodayModel todayModel = new TodayModel();
+    private static AssetJobCardModel getAssetJobCardFromCursor(Cursor cursor) {
+        AssetJobCardModel todayModel = new AssetJobCardModel();
         todayModel.assetCardId = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_ID)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_ID)) : "";
         todayModel.assetName = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_NAME)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_NAME)) : "";
         todayModel.assetCategory = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CATEGORY)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CATEGORY)) : "";
@@ -271,8 +271,8 @@ public class DatabaseManager
     }
 
     // Nsc Deassign
-    public static void handleReassignAssetJobCard(Context mContext, ArrayList<String> reAssignedJobCards, String userId) {
-        for (String card_id : reAssignedJobCards) {
+    public static void handleDeassignAssetJobCard(Context mContext, ArrayList<String> deAssignedJobCards, String userId) {
+        for (String card_id : deAssignedJobCards) {
             deleteAssetJobCard(mContext, card_id, userId);
         }
     }
