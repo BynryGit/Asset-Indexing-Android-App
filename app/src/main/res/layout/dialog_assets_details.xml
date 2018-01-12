@@ -29,8 +29,15 @@
             android:textColor="@color/colorTextBlack"
             android:layout_marginTop="10dp"/>
 
-
-
+        <TextView
+            android:id="@+id/txt_make_make_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_h3"
+            android:text="@string/make_no"
+            android:textColor="@color/colorTextBlack"
+            android:layout_marginTop="0dp"/>
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/asset_id"
                         android:textColor="@color/colorText"
-                        android:textSize="@dimen/text_large" />
+                        android:textSize="@dimen/text_size_h2" />
 
                     <TextView
                         android:id="@+id/txt_asset_id"
@@ -63,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:text="123123"
                         android:textColor="@color/colorTextBlack"
-                        android:textSize="@dimen/text_x_large"
+                        android:textSize="@dimen/text_size_h5"
                         android:layout_marginTop="2dp"/>
 
                 </LinearLayout>
@@ -81,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/category"
                         android:textColor="@color/colorText"
-                        android:textSize="@dimen/text_large" />
+                        android:textSize="@dimen/text_size_h2" />
 
                     <TextView
                         android:id="@+id/txt_category"
@@ -89,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/category"
                         android:textColor="@color/colorTextBlack"
-                        android:textSize="@dimen/text_x_large"
+                        android:textSize="@dimen/text_size_h5"
                         android:layout_marginTop="2dp"/>
 
                 </LinearLayout>
@@ -116,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/sub_category"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/text_large" />
+                        android:textSize="@dimen/text_size_h2" />
 
                     <TextView
                         android:id="@+id/txt_subcategory"
@@ -124,12 +131,11 @@
                         android:layout_height="wrap_content"
                         android:text="@string/sub_category"
                         android:textColor="@color/colorTextBlack"
-                        android:textSize="@dimen/text_x_large"
+                        android:textSize="@dimen/text_size_h5"
                         android:layout_marginTop="2dp"/>
 
                 </LinearLayout>
-
-
+                
             </LinearLayout>
 
         </LinearLayout>
@@ -139,7 +145,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="@string/ok"
-            android:background="@color/colorButton"
+            android:background="@drawable/button_negative_background"
             android:layout_gravity="bottom|center"
             android:layout_marginTop="20dp"
             android:textColor="@color/colorWhite"

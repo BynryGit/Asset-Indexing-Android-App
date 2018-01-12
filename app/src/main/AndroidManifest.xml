@@ -56,6 +56,15 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateVisible|adjustResize">
 
+        <!-- Google Map key starts -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!-- Google Map key ends -->
+
         <!-- [START fcm_receiver] -->
         <service android:name=".services.MyFireBaseMessagingService">
             <intent-filter>
@@ -68,6 +77,18 @@
             </intent-filter>
         </service>
         <!-- [END fcm_receiver] -->
+
+        <!-- Code for image Nougat Start -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.aia.file"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <!-- Code for image Nougat End -->
 
         <activity
             android:name=".ui.activities.SplashActivity"

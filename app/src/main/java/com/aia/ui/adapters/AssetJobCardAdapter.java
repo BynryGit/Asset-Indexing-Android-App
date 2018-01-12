@@ -44,7 +44,7 @@ public class AssetJobCardAdapter extends RecyclerView.Adapter<AssetJobCardAdapte
     @Override
     public void onBindViewHolder(TodayHolder holder, final int position)
     {
-        CommonUtility.setAnimation(holder.itemView, position, AppConstants.LAST_POSITION, mContext);
+        CommonUtility.setAnimation(holder.itemView, position, AppConstants.RESULT_OK, mContext);
 
         /*holder.lblFirst.setText(R.string.asset_name);
         holder.lblSecond.setText(R.string.category);

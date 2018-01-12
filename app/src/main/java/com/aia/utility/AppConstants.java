@@ -17,7 +17,10 @@ public class AppConstants
     public static final int PERMISSION_READ_STORAGE = 4;
     public static final int PERMISSION_CAMERA = 5;
     public static int ALL_PERMISSIONS_RESULT = 55;
-    public static int LAST_POSITION = -1;
+    public static int IMAGE_WIDTH = 960;
+    public static int IMAGE_HEIGHT = 720;
+    public static int CAMERA_RESULT_CODE = 1000;
+    public static final int RESULT_OK = -1;
     public static int ZERO = 0;
     public static int ONE = 1;
 

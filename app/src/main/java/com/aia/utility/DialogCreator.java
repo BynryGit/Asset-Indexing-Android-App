@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aia.R;
+import com.aia.models.AssetDetailModel;
 
 
 public class DialogCreator
@@ -126,30 +127,43 @@ public class DialogCreator
         alert.show();
     }*/
 
-    public static void showAssetDetailsDialog(final Context context, String assetName, String assetCategory, String assetSubCategory, String assetId)
+    public static void showAssetDetailsDialog(final Context context, AssetDetailModel assetDetailModel)
     {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptView = layoutInflater.inflate(R.layout.dialog_assets_details, null);
         final AlertDialog alert = new AlertDialog.Builder(context).create();
+        Typeface fontRegular = App.getFontRegular(), fontBold = App.getFontBold();
 
-        TextView lblAssetName, lblAssetid, lblAssetCategory, lblAssetSubCategory;
-        TextView txtAssetName, txtAssetId, txtAssetCategory, txtAssetSubCategory;
+        TextView lblAssetId, lblAssetCategory, lblAssetSubCategory;
+        TextView txtAssetName, txtAssetMakeNo, txtAssetId, txtAssetCategory, txtAssetSubCategory;
+
         //Initialising all labels starts
-        txtAssetName = (TextView)promptView.findViewById(R.id.txt_asset_name);
-        lblAssetid = (TextView)promptView.findViewById(R.id.lbl_asset_id);
-        lblAssetCategory = (TextView)promptView.findViewById(R.id.lbl_assets_category);
-        lblAssetSubCategory = (TextView)promptView.findViewById(R.id.lbl_subcategory);
-        txtAssetId = (TextView)promptView.findViewById(R.id.txt_asset_id);
-        txtAssetCategory = (TextView)promptView.findViewById(R.id.txt_category);
-        txtAssetSubCategory = (TextView)promptView.findViewById(R.id.txt_subcategory);
+        lblAssetId = promptView.findViewById(R.id.lbl_asset_id);
+        lblAssetId.setTypeface(fontBold);
+        lblAssetCategory = promptView.findViewById(R.id.lbl_assets_category);
+        lblAssetCategory.setTypeface(fontBold);
+        lblAssetSubCategory = promptView.findViewById(R.id.lbl_subcategory);
+        lblAssetSubCategory.setTypeface(fontBold);
+
+        txtAssetName = promptView.findViewById(R.id.txt_asset_name);
+        txtAssetName.setTypeface(fontBold);
+        txtAssetMakeNo = promptView.findViewById(R.id.txt_make_make_no);
+        txtAssetMakeNo.setTypeface(fontRegular);
+        txtAssetId = promptView.findViewById(R.id.txt_asset_id);
+        txtAssetId.setTypeface(fontRegular);
+        txtAssetCategory = promptView.findViewById(R.id.txt_category);
+        txtAssetCategory.setTypeface(fontRegular);
+        txtAssetSubCategory = promptView.findViewById(R.id.txt_subcategory);
+        txtAssetSubCategory.setTypeface(fontRegular);
 
 
         //Setting values to the text starts
-        txtAssetName.setText(assetName);
-        txtAssetId.setText(assetId);
-        txtAssetCategory.setText(assetCategory);
-        txtAssetSubCategory.setText(assetSubCategory);
+        txtAssetName.setText(assetDetailModel.assetName);
+        txtAssetMakeNo.setText(assetDetailModel.assetMake + "|" + assetDetailModel.assetMakeNo);
+        txtAssetId.setText(assetDetailModel.assetId);
+        txtAssetCategory.setText(assetDetailModel.assetCategory);
+        txtAssetSubCategory.setText(assetDetailModel.assetSubCategory);
 
         //Setting values to the text ends
 

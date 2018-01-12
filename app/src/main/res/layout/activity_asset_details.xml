@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color_1">
+    android:background="@color/background_color">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
@@ -24,7 +24,23 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-                <include layout="@layout/toolbar" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/toolbar" />
+
+                    <ImageView
+                        android:id="@+id/img_view_default_parameter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/ic_stdparam"
+                        android:layout_marginRight="5dp"/>
+
+                </RelativeLayout>
 
             </android.support.design.widget.AppBarLayout>
 
@@ -65,7 +81,7 @@
                             android:singleLine="true"
                             android:text="@string/dummy_asset_id"
                             android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/text_x_large"
+                            android:textSize="@dimen/text_large"
                             android:visibility="visible" />
 
                         <ImageView
@@ -173,49 +189,95 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/lbl_select_sub_division"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Select Sub-Division"/>
+                            android:text="@string/select_sub_division"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_size_h3"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"/>
 
                         <Spinner
                             android:id="@+id/spinner_sub_division"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
-                            android:layout_gravity="left"
-                            android:layout_marginRight="1.5dp"
                             android:background="@color/colorWhite"
-                            android:paddingLeft="8dp"
                             android:spinnerMode="dropdown"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"/>
+
+                        <TextView
+                            android:id="@+id/lbl_select_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_area"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_size_h3"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"/>
 
                         <Spinner
                             android:id="@+id/spinner_area"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
-                            android:layout_gravity="left"
-                            android:layout_marginRight="1.5dp"
                             android:background="@color/colorWhite"
-                            android:paddingLeft="8dp"
                             android:spinnerMode="dropdown"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"/>
+
+                        <TextView
+                            android:id="@+id/lbl_select_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_location"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_size_h3"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"/>
 
                         <Spinner
                             android:id="@+id/spinner_location"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
-                            android:layout_gravity="left"
-                            android:layout_marginRight="1.5dp"
                             android:background="@color/colorWhite"
-                            android:paddingLeft="8dp"
                             android:spinnerMode="dropdown"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"/>
+
+                        <TextView
+                            android:id="@+id/lbl_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/address"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_size_h3"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"/>
+
+                        <EditText
+                            android:id="@+id/edt_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="0dp"
+                            android:background="@color/colorWhite"
+                            android:hint="@string/enter_asset_address"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+                            android:minLines="2"
+                            android:paddingLeft="10dp"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_large"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:background="@color/colorWhite"/>
+                        android:layout_marginTop="5dp"
+                        android:background="@color/background_color"/>
 
                 </LinearLayout>
 
@@ -224,15 +286,6 @@
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
-
-    <ImageView
-        android:id="@+id/img_view_default_parameter"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/ic_stdparam"
-        android:gravity="center" />
 
     <Button
         android:id="@+id/btn_submit"

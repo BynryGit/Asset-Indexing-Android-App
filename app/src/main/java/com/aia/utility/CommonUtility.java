@@ -2,16 +2,21 @@ package com.aia.utility;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
@@ -35,9 +40,10 @@ public class CommonUtility
 
     private static CommonUtility nUtilHelper;
     private static Context mContext;
-   public static ProgressDialog pDialog;
+    public static ProgressDialog pDialog;
 
     public static float density = 1;
+    public static boolean isGPSEnabled = false;
 
     public static CommonUtility getInstance(Context context)
     {
@@ -86,17 +92,17 @@ public class CommonUtility
 
 
     public static int getColor(Context context, int id)
-{
-    final int version = Build.VERSION.SDK_INT;
-    if (version >= 23)
     {
-        return ContextCompat.getColor(context, id);
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= 23)
+        {
+            return ContextCompat.getColor(context, id);
+        }
+        else
+        {
+            return context.getResources().getColor(id);
+        }
     }
-    else
-    {
-        return context.getResources().getColor(id);
-    }
-}
 
     @TargetApi(Build.VERSION_CODES.M)
     public static void askForPermissions(final Context context, ArrayList<String> permissions) {
@@ -304,7 +310,7 @@ public class CommonUtility
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
         //paint.setAlpha(alpha);
-        paint.setTextSize(50);
+        paint.setTextSize(30);
         paint.setAntiAlias(true);
         paint.setUnderlineText(false);
         canvas.drawText(watermark, 5, h-5, paint);
@@ -333,6 +339,52 @@ public class CommonUtility
         calendar.add(Calendar.DAY_OF_YEAR, -prev);
         Date newDate = calendar.getTime();
         return dateFormat.format(newDate);
+    }
+
+    public static boolean checkGPSConnectivity(final Context mContext)
+    {
+        boolean returns = false;
+
+        LocationManager lm = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+            dialog.setMessage(mContext.getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(mContext.getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    mContext.startActivity(myIntent);
+                    //get gps
+                }
+            });
+            dialog.setNegativeButton(mContext.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                }
+            });
+            dialog.show();
+            isGPSEnabled = false;
+        }
+        else
+        {
+            isGPSEnabled = true;
+        }
+        return isGPSEnabled;
     }
 
 }

@@ -24,7 +24,8 @@
     <string name="gallery">Gallery</string>
     <string name="remove">Remove</string>
     <string name="profile_image">profile_image</string>
-
+    <string name="result">result</string>
+    <string name="success">success</string>
     <string name="notification_title">Notification Title</string>
     <string name="this_is_message_body_of_the_notification">This is message body of the Notification ...............</string>
 
@@ -76,6 +77,13 @@
     <string name="asset_image">Asset Image</string>
     <string name="reading_parameters">Reading Parameters</string>
     <string name="select_sub_division">Select Sub-Division</string>
+    <string name="select_area">Select Area</string>
+    <string name="select_location">Select Location</string>
+    <string name="address">Address</string>
+    <string name="enter_asset_address">Enter Asset Address</string>
+    <string name="gps_network_not_enabled">GPS Network not <b>Enabled</b></string>
+    <string name="open_location_settings">Open Location Settings</string>
+    <string name="Cancel">Cancel</string>
     <!--Text on AssetDetailsActivity Ends-->
 
     <!--All Errors related messages starts-->
@@ -88,11 +96,29 @@
     <string name="error_checking_parameters">Please Check Asset Parameters</string>
     <string name="error_reading_parameters">Please Enter Reading</string>
     <string name="error_please_contact_server_admin">Your username and phone id does not match, Please contact admin.</string>
+    <string name="this_device_is_not_support_gps">This device is not support GPS</string>
     <!--All Errors related messages ends-->
 
     <!--Empty Screen Messages Starts-->
     <string name="consumer_info_not_assigned_to_you">Consumer info not Assigned to you!</string>
     <string name="no_data_available">No data Available</string>
     <!--Empty Screen Messages Ends-->
+
+    <!--Api related keys Starts-->
+    <string name="job_card_id">jc_id</string>
+    <string name="sub_division_id">sub_division_id</string>
+    <string name="area_id">area_id</string>
+
+    <string name="asset_id_upload">asset_id</string>
+    <string name="sub_division_upload">sub_division</string>
+    <string name="area_id_upload">area</string>
+    <string name="location_id_upload">location</string>
+    <string name="make_upload">make</string>
+    <string name="make_no_upload">make_no</string>
+    <string name="address_upload">address</string>
+    <string name="latitude_upload">latitude</string>
+    <string name="longitude_upload">longitude</string>
+    <string name="file">file</string>
+    <!--Api related keys Ends-->
 
 </resources>
