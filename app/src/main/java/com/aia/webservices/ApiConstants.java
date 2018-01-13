@@ -5,7 +5,7 @@ public class ApiConstants
 {
 
     //  public static final String DOMAIN_URL = "http://192.168.1.44:8006"; //  Priyanka Local
-    public static final String DOMAIN_URL = "http://192.168.10.104:8000"; //  Vikas Local
+    public static final String DOMAIN_URL = "http://192.168.10.112:8000"; //  Vikas Local
 
     public static final String BASE_URL = DOMAIN_URL + "/api/";
 
@@ -16,6 +16,7 @@ public class ApiConstants
 
     // All URL's
     public static final String LOGIN_URL = BASE_URL + "login";
+    public static final String UPDATE_FCM_TOKEN_URL = BASE_URL + "";
     public static final String GET_ASSIGNED_ASSET_CARD_URL = BASE_URL + "get-asset-card/";
     public static final String GET_DE_ASSIGNED_ASSET_CARD_URL = BASE_URL + "reassigned-deassigned-asset-card/";
     public static final String GET_ASSET_DETAILS_URL = BASE_URL + "get-asset-details/";
@@ -28,13 +29,14 @@ public class ApiConstants
 
     //All URL constants
     public static final String LOGIN = "1";
-    public static final String GET_ASSIGNED_ASSET_CARD = "2";
-    public static final String GET_DE_ASSIGNED_ASSET_CARD = "3";
-    public static final String GET_ASSET_DETAILS = "4";
-    public static final String GET_SUB_DIVISION = "5";
-    public static final String GET_AREA = "6";
-    public static final String GET_LOCATION = "7";
-    public static final String UPLOAD_ASSET_DETAILS = "8";
-    public static final String UPLOAD_ASSET_IMAGE = "9";
+    public static final String UPDATE_FCM_TOKEN = "2";
+    public static final String GET_ASSIGNED_ASSET_CARD = "3";
+    public static final String GET_DE_ASSIGNED_ASSET_CARD = "4";
+    public static final String GET_ASSET_DETAILS = "5";
+    public static final String GET_SUB_DIVISION = "6";
+    public static final String GET_AREA = "7";
+    public static final String GET_LOCATION = "8";
+    public static final String UPLOAD_ASSET_DETAILS = "9";
+    public static final String UPLOAD_ASSET_IMAGE = "10";
 
 }

@@ -33,7 +33,9 @@ public class App extends MultiDexApplication
         permissions.add(Manifest.permission.CAMERA);
         permissions.add(Manifest.permission.READ_PHONE_STATE);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.DELETE_CACHE_FILES);
         permissions.add(Manifest.permission.RECEIVE_SMS);
         permissions.add(Manifest.permission.READ_SMS);
 

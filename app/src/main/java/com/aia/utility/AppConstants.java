@@ -34,7 +34,7 @@ public class AppConstants
 
     //Constant String Values
     public static String CARD_STATUS_OPEN = "Open";
-    public static String CARD_STATUS_CLOSED = "Completed";
+    public static String CARD_STATUS_COMPLETED = "Completed";
 
     //String Values
     public static String MOBILE_NO = "mobile_no";

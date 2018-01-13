@@ -69,7 +69,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
                 AssetJobCardTable.Cols.ASSET_MAKE_NO + " VARCHAR, " +
                 AssetJobCardTable.Cols.ASSET_LOCATION + " VARCHAR, " +
                 AssetJobCardTable.Cols.ASSET_CARD_STATUS + " VARCHAR, " +
-                AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE + " VARCHAR";
+                AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE + " VARCHAR, " +
+                AssetJobCardTable.Cols.ASSET_SUBMITTED_DATE + " VARCHAR";
         createTable(db, AssetJobCardTable.TABLE_NAME, NSCJobCardTableFields);
     }
 

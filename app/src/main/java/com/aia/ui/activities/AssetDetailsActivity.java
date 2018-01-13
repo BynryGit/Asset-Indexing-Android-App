@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,12 +31,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aia.R;
+import com.aia.db.DatabaseManager;
 import com.aia.interfaces.ApiServiceCaller;
 import com.aia.models.AssetDetailModel;
 import com.aia.utility.App;
@@ -77,7 +78,7 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
-    private String ASSET_IMAGE_DIRECTORY_NAME = "Asset Image", assetImageName = "image";
+    private String ASSET_IMAGE_DIRECTORY_NAME = ".Asset-Image", assetImageName = "image";
 
     private Context mContext;
     private Typeface fontRegular, fontBold, fontItalic;
@@ -91,7 +92,7 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
     private Button btnSubmit;
     private Spinner spinnerSubDivision, spinnerArea, spinnerLocation;
     private double currentLatitude = 0, currentLongitude = 0;
-    private File finalFile;
+    private File finalFile = null;
     private AssetDetailModel assetDetailModel;
 
     @SuppressLint("MissingPermission")
@@ -129,6 +130,7 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
         imgViewDetails.setOnClickListener(this);
         imgDefaultParameter = findViewById(R.id.img_view_default_parameter);
         imgDefaultParameter.setOnClickListener(this);
+        imgDefaultParameter.setVisibility(View.GONE);
         imgCamera = findViewById(R.id.img_capture);
         imgCamera.setOnClickListener(this);
         cameraImage = findViewById(R.id.imageView);
@@ -204,8 +206,16 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
 
         if(v == btnSubmit)
         {
-            uploadAssetDetails();
+            checkValidation();
         }
+    }
+
+    private void checkValidation()
+    {
+        if(finalFile == null)
+            Toast.makeText(mContext, getString(R.string.please_provide_asset_image), Toast.LENGTH_SHORT).show();
+        else
+            uploadAssetDetails();
     }
 
     @Override
@@ -239,7 +249,7 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
 
     private void setParameters()
     {
-        txtAssetNameNo.setText(assetMake + "|" + assetMakeNo);
+        txtAssetNameNo.setText(assetMake + " | " + assetMakeNo);
         if(assetAddress.length() > 0)
         {
             edtAddress.setText(assetAddress);
@@ -392,8 +402,8 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                                 assetImageName = "Asset_Image_" + assetDetailModel.assetJobCardId + "_"+assetDetailModel.assetId + "_" + userId;
                                 getAssetSubDivisions();
                                 setParameters();
-                            } catch (Exception e) {e.printStackTrace();}
-                        }
+                            } catch (Exception e) { finish(); e.printStackTrace();}
+                        }else finish();
                     }
                     else
                     {
@@ -401,9 +411,10 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                         {
                             dismissLoadingDialog();
                             Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
-                }
+                }else finish();
             }
             break;
             case ApiConstants.GET_SUB_DIVISION:
@@ -465,9 +476,9 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                                         public void onNothingSelected(AdapterView<?> parent) {}
 
                                     });
-                                }
-                            } catch (Exception e) {e.printStackTrace();}
-                        }
+                                }else finish();
+                            } catch (Exception e) {finish(); e.printStackTrace();}
+                        }else finish();
                     }
                     else
                     {
@@ -475,9 +486,10 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                         {
                             dismissLoadingDialog();
                             Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
-                }
+                } else finish();
             }
             break;
             case ApiConstants.GET_AREA:
@@ -539,9 +551,9 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                                         public void onNothingSelected(AdapterView<?> parent) {}
 
                                     });
-                                }
-                            } catch (Exception e) {e.printStackTrace();}
-                        }
+                                }else finish();
+                            } catch (Exception e) {finish(); e.printStackTrace();}
+                        }else finish();
                     }
                     else
                     {
@@ -549,9 +561,10 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                         {
                             dismissLoadingDialog();
                             Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
-                }
+                }else finish();
             }
             break;
             case ApiConstants.GET_LOCATION:
@@ -614,9 +627,9 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                                         public void onNothingSelected(AdapterView<?> parent) {}
 
                                     });
-                                }
-                            } catch (Exception e) {e.printStackTrace();}
-                        }
+                                }else finish();
+                            } catch (Exception e) {finish(); e.printStackTrace();}
+                        }else finish();
                     }
                     else
                     {
@@ -624,9 +637,10 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                         {
                             dismissLoadingDialog();
                             Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
-                }
+                }else finish();
             }
             break;
             case ApiConstants.UPLOAD_ASSET_DETAILS:
@@ -661,18 +675,22 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
         switch (label) {
             case ApiConstants.GET_ASSET_DETAILS: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.GET_SUB_DIVISION: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.GET_AREA: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.GET_LOCATION: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.UPLOAD_ASSET_DETAILS: {
@@ -689,18 +707,22 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
         switch (label) {
             case ApiConstants.GET_ASSET_DETAILS: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.GET_SUB_DIVISION: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.GET_AREA: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.GET_LOCATION: {
                 Toast.makeText(mContext, getString(R.string.api_fail_message), Toast.LENGTH_SHORT).show();
+                finish();
             }
             break;
             case ApiConstants.UPLOAD_ASSET_DETAILS: {
@@ -722,6 +744,12 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
     public void onResume() {
         super.onResume();
         checkPlayServices();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        deleteImageFolder();
     }
 
     private boolean checkPlayServices() {
@@ -856,6 +884,16 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
         }
     }
 
+    private void deleteImageFolder()
+    {
+        File folder1 = new File(Environment.getExternalStorageDirectory() + File.separator + ASSET_IMAGE_DIRECTORY_NAME);
+        try {
+            if(folder1.exists())
+                CommonUtility.deleteDir(folder1);
+
+        }catch(Exception e) {}
+    }
+
     private class UploadImage extends AsyncTask<String, String, String>
     {
         @Override
@@ -888,7 +926,10 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                 try {
                     JSONObject response = new JSONObject(s.toString());
 
-                    if(response.getString(getString(R.string.result)).equalsIgnoreCase(getString(R.string.success))) {
+                    if(response.getString(getString(R.string.result)).equalsIgnoreCase(getString(R.string.success)))
+                    {
+                        DatabaseManager.updateAssetJobCardStatus(assetId, AppConstants.CARD_STATUS_COMPLETED, CommonUtility.getCurrentDate());
+                        deleteImage(finalFile);
                         finish();
                     }
                 } catch(Exception e) {e.printStackTrace();}

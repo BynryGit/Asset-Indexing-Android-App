@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
@@ -189,6 +190,7 @@ public class DatabaseManager
             values.put(AssetJobCardTable.Cols.ASSET_LOCATION,  todayModel.assetLocation != null ?  todayModel.assetLocation : "");
             values.put(AssetJobCardTable.Cols.ASSET_CARD_STATUS, AppConstants.CARD_STATUS_OPEN);
             values.put(AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE, CommonUtility.getCurrentDate());
+            values.put(AssetJobCardTable.Cols.ASSET_SUBMITTED_DATE, "");
 
         } catch (Exception e) {e.printStackTrace();}
 
@@ -237,10 +239,10 @@ public class DatabaseManager
         todayModel.assetLocation = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_LOCATION)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_LOCATION)) : "";
         todayModel.cardStatus = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_STATUS)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_CARD_STATUS)) : "";
         todayModel.assignedDate = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE)) : "";
+        todayModel.submittedDate = cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_SUBMITTED_DATE)) != null ? cursor.getString(cursor.getColumnIndex(AssetJobCardTable.Cols.ASSET_SUBMITTED_DATE)) : "";
         return todayModel;
     }
 
-    //  get total count of NSCToday
     public static int getAssetJobCardCount(String userId, String jobCardStatus) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + AssetJobCardTable.TABLE_NAME + " where " +
@@ -251,8 +253,7 @@ public class DatabaseManager
         return cnt;
     }
 
-    //  get total count of NSCToday
-    public static int getAssetJobCardCount(String userId, String jobCardStatus, String date) {
+    public static int getAssetHistoryCount(String userId, String jobCardStatus, String date) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + AssetJobCardTable.TABLE_NAME + " where " +
                 AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " +
@@ -263,15 +264,19 @@ public class DatabaseManager
         return cnt;
     }
 
-    // Update NscTable
-    public static void updateAssetJobCardStatus(String assetCardId, String jobCardStatus) {
+    public static void updateAssetJobCardStatus(String assetCardId, String jobCardStatus, String submittedDate) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Update  " + AssetJobCardTable.TABLE_NAME + " set " + AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus +  " where " + AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + assetCardId + "'", null);
-        cursor.close();
+        ContentValues values = new ContentValues();
+        values.put(AssetJobCardTable.Cols.ASSET_CARD_STATUS, jobCardStatus);
+        values.put(AssetJobCardTable.Cols.ASSET_SUBMITTED_DATE, submittedDate);
+        String condition = AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + assetCardId + "'";
+        db.update(AssetJobCardTable.TABLE_NAME, values, condition, null);
+        if (db.isOpen()) {
+            db.close();
+        }
     }
 
-    // Nsc Deassign
-    public static void handleDeassignAssetJobCard(Context mContext, ArrayList<String> deAssignedJobCards, String userId) {
+    public static void handleDeAssignAssetJobCard(Context mContext, ArrayList<String> deAssignedJobCards, String userId) {
         for (String card_id : deAssignedJobCards) {
             deleteAssetJobCard(mContext, card_id, userId);
         }

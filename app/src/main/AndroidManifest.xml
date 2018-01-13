@@ -5,19 +5,13 @@
     <!-- General permission -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="app.cloudstringers.permission.C2D_MESSAGE"/>
 
     <!-- Dangerous Permission STORAGE category -->
-    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -28,6 +22,11 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
+    <!-- Required to show current location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <!-- Map Related Permissions -->
     <!--
     <permission
@@ -37,12 +36,6 @@
     <uses-permission android:name="info.aia.googlemapsv2.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     -->
-
-
-    <!-- Required to show current location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".utility.App"
@@ -90,6 +83,10 @@
         </provider>
         <!-- Code for image Nougat End -->
 
+        <provider
+            android:name=".db.DatabaseProvider"
+            android:authorities="com.aia" />
+
         <activity
             android:name=".ui.activities.SplashActivity"
             android:screenOrientation="portrait">
@@ -111,23 +108,13 @@
         <activity
             android:name=".ui.activities.NotificationActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.LandingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.AssetDetailsActivity"
+            android:screenOrientation="portrait" />
 
-        <!-- Code for image Nougat -->
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.aia.file"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-        <provider
-            android:name=".db.DatabaseProvider"
-            android:authorities="com.aia" />
-
-        <activity android:name=".ui.activities.LandingActivity" />
-        <activity android:name=".ui.activities.AssetDetailsActivity"></activity>
     </application>
 
 </manifest>

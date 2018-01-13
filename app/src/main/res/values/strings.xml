@@ -84,6 +84,7 @@
     <string name="gps_network_not_enabled">GPS Network not <b>Enabled</b></string>
     <string name="open_location_settings">Open Location Settings</string>
     <string name="Cancel">Cancel</string>
+    <string name="please_provide_asset_image">Please provide Asset Image</string>
     <!--Text on AssetDetailsActivity Ends-->
 
     <!--All Errors related messages starts-->

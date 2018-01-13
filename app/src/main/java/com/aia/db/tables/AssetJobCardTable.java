@@ -33,5 +33,6 @@ public class AssetJobCardTable
         public static final String ASSET_MAKE = "asset_make";
         public static final String ASSET_CARD_STATUS = "card_status";
         public static final String ASSET_ASSIGNED_DATE = "assigned_date";
+        public static final String ASSET_SUBMITTED_DATE = "submitted_date";
     }
 }

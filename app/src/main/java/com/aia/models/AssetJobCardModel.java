@@ -3,7 +3,6 @@ package com.aia.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class AssetJobCardModel implements Serializable
@@ -31,6 +30,7 @@ public class AssetJobCardModel implements Serializable
 
     public String cardStatus;
     public String assignedDate;
+    public String submittedDate;
 
     public String getAssetCardId() {
         return assetCardId;
@@ -62,5 +62,9 @@ public class AssetJobCardModel implements Serializable
 
     public String getAssignedDate() {
         return assignedDate;
+    }
+
+    public String getSubmittedDate() {
+        return submittedDate;
     }
 }

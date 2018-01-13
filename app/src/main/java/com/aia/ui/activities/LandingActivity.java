@@ -34,6 +34,8 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class LandingActivity extends ParentActivity implements View.OnClickListener, ApiServiceCaller
@@ -96,7 +98,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         isOpen = true; isCompleted = false; isHistory = false;
 
         txtTitle = findViewById(R.id.txt_name);
-        txtTitle.setTypeface(fontBold);
+        txtTitle.setTypeface(fontItalic);
         txtTitle.setText(AppPreferences.getInstance(mContext).getString(AppConstants.USER_NAME, AppConstants.BLANK_STRING));
 
         txtTotal = findViewById(R.id.txt_total);
@@ -125,6 +127,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
 
         userId = AppPreferences.getInstance(mContext).getString(AppConstants.EMP_ID, AppConstants.BLANK_STRING);
         refreshCount();
+        updateDeviceToken();
     }
 
     private void refreshCount()
@@ -140,7 +143,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         }
         else if(isCompleted)
         {
-            todayModels = DatabaseManager.getAssetJobCards(userId, AppConstants.CARD_STATUS_CLOSED);
+            todayModels = DatabaseManager.getAssetJobCards(userId, AppConstants.CARD_STATUS_COMPLETED);
             btnOpen.setBackgroundResource(R.drawable.ripple_oval_un_selected);
             btnCompleted.setBackgroundResource(R.drawable.ripple_oval_selected);
             btnHistory.setBackgroundResource(R.drawable.ripple_oval_un_selected);
@@ -157,7 +160,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         recyclerView.setAdapter(assetJobCardAdapter);
 
         int todayOpenCount =  DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_OPEN);
-        int todayCompletedCount = DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_CLOSED);
+        int todayCompletedCount = DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_COMPLETED);
 
         btnTotal.setText(""+(todayOpenCount + todayCompletedCount));
         btnOpen.setText(""+todayOpenCount);
@@ -220,6 +223,30 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateDeviceToken()
+    {
+        String empId = AppPreferences.getInstance(mContext).getString(AppConstants.EMP_ID, AppConstants.BLANK_STRING);
+        String deviceFcmToken = AppPreferences.getInstance(mContext).getString(AppConstants.DEVICE_FCM_TOKEN, AppConstants.BLANK_STRING);
+        String token = AppPreferences.getInstance(mContext).getString(AppConstants.AUTH_TOKEN, AppConstants.BLANK_STRING);
+        if (CommonUtility.checkConnectivity(mContext))
+        {
+            try
+            {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("user_id", empId);
+                jsonObject.put("fcm_token", deviceFcmToken);
+
+                JsonObjectRequest request = WebRequest.callPostMethod(jsonObject, Request.Method.POST, ApiConstants.UPDATE_FCM_TOKEN_URL,
+                        ApiConstants.UPDATE_FCM_TOKEN, this, token);
+                App.getInstance().addToRequestQueue(request, ApiConstants.UPDATE_FCM_TOKEN);
+
+            } catch (Exception e) {e.printStackTrace();}
+        }
+        else{
+            Toast.makeText(mContext, getString(R.string.error_internet_not_connected), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void getJobCards()
@@ -308,7 +335,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
                             {
                                 if(jsonResponse.deassign_request_list != null)
                                 {
-                                    DatabaseManager.handleDeassignAssetJobCard(mContext, jsonResponse.deassign_request_list, userId);
+                                    DatabaseManager.handleDeAssignAssetJobCard(mContext, jsonResponse.deassign_request_list, userId);
                                     Toast.makeText(mContext, jsonResponse.message, Toast.LENGTH_SHORT).show();
                                     isOpen = true; isCompleted = false; isHistory = false;
                                     refreshCount();
@@ -363,5 +390,16 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
             }
             break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshCount();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
