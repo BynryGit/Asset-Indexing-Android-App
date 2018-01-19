@@ -24,12 +24,17 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+        <TextView
+            android:id="@+id/txt_empty_screen_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:visibility="gone"/>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/consumer_info_not_assigned_to_you"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_h4"
+            android:layout_marginTop="60dp"
+            android:textColor="@color/colorBlack"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

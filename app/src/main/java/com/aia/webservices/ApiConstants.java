@@ -5,9 +5,10 @@ public class ApiConstants
 {
 
     //  public static final String DOMAIN_URL = "http://192.168.1.44:8006"; //  Priyanka Local
-    public static final String DOMAIN_URL = "http://192.168.10.112:8000"; //  Vikas Local
+    public static final String DOMAIN_URL = "http://192.168.10.103:8000"; //  Vikas Local
 
     public static final String BASE_URL = DOMAIN_URL + "/api/";
+
 
 //    TODO Please Make Sure that While creating signed APK make this value to "1"
 //    TODO Check DOMAIN_URL, Check IMEI no in LoginActivity, Check All Log files(Log.d, Log.i, etc)
@@ -16,7 +17,7 @@ public class ApiConstants
 
     // All URL's
     public static final String LOGIN_URL = BASE_URL + "login";
-    public static final String UPDATE_FCM_TOKEN_URL = BASE_URL + "";
+    public static final String UPDATE_FCM_TOKEN_URL = BASE_URL + "fcm-token/";
     public static final String GET_ASSIGNED_ASSET_CARD_URL = BASE_URL + "get-asset-card/";
     public static final String GET_DE_ASSIGNED_ASSET_CARD_URL = BASE_URL + "reassigned-deassigned-asset-card/";
     public static final String GET_ASSET_DETAILS_URL = BASE_URL + "get-asset-details/";

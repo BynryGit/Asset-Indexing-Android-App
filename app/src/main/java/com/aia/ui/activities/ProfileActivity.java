@@ -165,7 +165,6 @@ public class ProfileActivity extends ParentActivity implements View.OnClickListe
         AppPreferences.getInstance(mContext).putString(AppConstants.USER_CITY, "");
         AppPreferences.getInstance(mContext).putString(AppConstants.EMP_ID, "");
         AppPreferences.getInstance(mContext).putString(AppConstants.MOBILE_NO, "");
-        AppPreferences.getInstance(mContext).putString(AppConstants.PROFILE_IMAGE_URL, "");
 
         Intent intent = new Intent(mContext, LoginActivity.class);
         startActivity(intent);

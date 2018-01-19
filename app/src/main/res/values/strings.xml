@@ -28,6 +28,8 @@
     <string name="success">success</string>
     <string name="notification_title">Notification Title</string>
     <string name="this_is_message_body_of_the_notification">This is message body of the Notification ...............</string>
+    <string name="user_id">user_id</string>
+    <string name="fcm_token">fcm_token</string>
 
     <!--Text Screen Names Starts-->
     <string name="title_activity_landing">LandingActivity</string>
@@ -100,9 +102,17 @@
     <string name="this_device_is_not_support_gps">This device is not support GPS</string>
     <!--All Errors related messages ends-->
 
+    <!--Search Activity Screen Starts-->
+    <string name="no_asset_found">No Asset Found</string>
+    <string name="record_found">Record Found</string>
+    <string name="records_found">Records Found</string>
+    <string name="search_text_criteria">You can search by <b>BP Number, Consumer Name</b> with at least <b>1</b> character</string>
+    <!--Search Activity Screen Ends-->
+
     <!--Empty Screen Messages Starts-->
     <string name="consumer_info_not_assigned_to_you">Consumer info not Assigned to you!</string>
-    <string name="no_data_available">No data Available</string>
+    <string name="reading_not_taken_yet">Reading not taken yet!</string>
+    <string name="no_data_available">No data Available!</string>
     <!--Empty Screen Messages Ends-->
 
     <!--Api related keys Starts-->

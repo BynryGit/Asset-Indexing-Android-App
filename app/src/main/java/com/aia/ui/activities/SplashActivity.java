@@ -8,6 +8,7 @@ import android.os.Handler;
 import com.aia.R;
 import com.aia.utility.AppConstants;
 import com.aia.utility.AppPreferences;
+import com.aia.utility.CommonUtility;
 
 public class SplashActivity extends ParentActivity
 {
@@ -35,6 +36,7 @@ public class SplashActivity extends ParentActivity
 
     private void callNextScreen()
     {
+
         String empId = AppPreferences.getInstance(mContext).getString(AppConstants.EMP_ID, "");
         Intent intent = null;
         if(empId.equals("") || empId == null)
@@ -43,7 +45,10 @@ public class SplashActivity extends ParentActivity
         }
         else
         {
-            intent = new Intent(mContext, LandingActivity.class);
+            if(CommonUtility.isLoggedIn(mContext))
+                intent = new Intent(mContext, LandingActivity.class);
+            else
+                intent = new Intent(mContext, LoginActivity.class);
         }
 
         startActivity(intent);

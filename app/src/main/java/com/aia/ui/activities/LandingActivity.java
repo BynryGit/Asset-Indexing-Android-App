@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.aia.R;
 import com.aia.db.DatabaseManager;
 import com.aia.interfaces.ApiServiceCaller;
+import com.aia.models.AssetHistoryCardModel;
 import com.aia.models.AssetJobCardModel;
+import com.aia.ui.adapters.AssetHistoryCardAdapter;
 import com.aia.ui.adapters.AssetJobCardAdapter;
 import com.aia.utility.App;
 import com.aia.utility.AppConstants;
@@ -42,7 +44,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
 {
     private Context mContext;
     private Toolbar toolbar;
-    private TextView txtTitle;
+    private TextView txtTitle, txtEmptyScreenMsg;
     private FloatingActionButton floatingSearch;
     private LinearLayout linearProfile;
     private LinearLayoutManager layoutManager;
@@ -74,7 +76,7 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
 
         floatingSearch = findViewById(R.id.fab);
         floatingSearch.setOnClickListener(this);
-        
+
         recyclerView = findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
@@ -100,6 +102,9 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
         txtTitle = findViewById(R.id.txt_name);
         txtTitle.setTypeface(fontItalic);
         txtTitle.setText(AppPreferences.getInstance(mContext).getString(AppConstants.USER_NAME, AppConstants.BLANK_STRING));
+        txtEmptyScreenMsg = findViewById(R.id.txt_empty_screen_msg);
+        txtEmptyScreenMsg.setTypeface(fontBold);
+        txtEmptyScreenMsg.setVisibility(View.GONE);
 
         txtTotal = findViewById(R.id.txt_total);
         txtTotal.setTypeface(fontRegular);
@@ -132,7 +137,8 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
 
     private void refreshCount()
     {
-        ArrayList<AssetJobCardModel> todayModels = new ArrayList<>();
+        ArrayList<AssetJobCardModel> todayModels;
+        ArrayList<AssetHistoryCardModel> assetHistoryTables;
 
         if(isOpen)
         {
@@ -140,6 +146,17 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
             btnOpen.setBackgroundResource(R.drawable.ripple_oval_selected);
             btnCompleted.setBackgroundResource(R.drawable.ripple_oval_un_selected);
             btnHistory.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+            if(todayModels != null)
+            {
+                txtEmptyScreenMsg.setVisibility(View.GONE);
+            }
+            else
+            {
+                txtEmptyScreenMsg.setVisibility(View.VISIBLE);
+                txtEmptyScreenMsg.setText(getString(R.string.consumer_info_not_assigned_to_you));
+            }
+            AssetJobCardAdapter assetJobCardAdapter = new AssetJobCardAdapter(mContext, todayModels, isOpen);
+            recyclerView.setAdapter(assetJobCardAdapter);
         }
         else if(isCompleted)
         {
@@ -147,24 +164,95 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
             btnOpen.setBackgroundResource(R.drawable.ripple_oval_un_selected);
             btnCompleted.setBackgroundResource(R.drawable.ripple_oval_selected);
             btnHistory.setBackgroundResource(R.drawable.ripple_oval_un_selected);
+            if(todayModels != null)
+            {
+                txtEmptyScreenMsg.setVisibility(View.GONE);
+            }
+            else
+            {
+                txtEmptyScreenMsg.setVisibility(View.VISIBLE);
+                txtEmptyScreenMsg.setText(getString(R.string.reading_not_taken_yet));
+            }
+            AssetJobCardAdapter assetJobCardAdapter = new AssetJobCardAdapter(mContext, todayModels, isOpen);
+            recyclerView.setAdapter(assetJobCardAdapter);
         }
         else if(isHistory)
         {
-            todayModels = DatabaseManager.getAssetJobCards(userId, AppConstants.CARD_STATUS_OPEN);
+            DatabaseManager.deleteUploadsHistory(mContext);
+
+            assetHistoryTables = DatabaseManager.getAssetHistoryCards(userId);
             btnOpen.setBackgroundResource(R.drawable.ripple_oval_un_selected);
             btnCompleted.setBackgroundResource(R.drawable.ripple_oval_un_selected);
             btnHistory.setBackgroundResource(R.drawable.ripple_oval_selected);
+            if(assetHistoryTables != null)
+            {
+                txtEmptyScreenMsg.setVisibility(View.GONE);
+            }
+            else
+            {
+                txtEmptyScreenMsg.setVisibility(View.VISIBLE);
+                txtEmptyScreenMsg.setText(getString(R.string.no_data_available));
+            }
+            AssetHistoryCardAdapter assetJobCardAdapter = new AssetHistoryCardAdapter(mContext, assetHistoryTables);
+            recyclerView.setAdapter(assetJobCardAdapter);
         }
 
-        AssetJobCardAdapter assetJobCardAdapter = new AssetJobCardAdapter(mContext, todayModels);
-        recyclerView.setAdapter(assetJobCardAdapter);
+        int countOpen =  DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_OPEN);
+        int countCompleted = DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_COMPLETED);
+        int countHistory = 0;
 
-        int todayOpenCount =  DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_OPEN);
-        int todayCompletedCount = DatabaseManager.getAssetJobCardCount(userId, AppConstants.CARD_STATUS_COMPLETED);
+        btnTotal.setText(""+(countOpen + countCompleted));
+        btnOpen.setText(""+countOpen);
+        btnCompleted.setText(""+countCompleted);
 
-        btnTotal.setText(""+(todayOpenCount + todayCompletedCount));
-        btnOpen.setText(""+todayOpenCount);
-        btnCompleted.setText(""+todayCompletedCount);
+        boolean alreadyPresent = false;
+        assetHistoryTables = DatabaseManager.getAssetHistoryCards(userId);
+
+        if(assetHistoryTables != null)
+        {
+            for(int i = 0; i < assetHistoryTables.size(); i++)
+            {
+                if(assetHistoryTables.get(i).todayDate.equals(CommonUtility.getCurrentDate()))
+                {
+                    alreadyPresent = true;
+                    break;
+                }
+            }
+
+            if(!alreadyPresent)
+            {
+                AssetHistoryCardModel assetHistoryCardModel = new AssetHistoryCardModel();
+                assetHistoryCardModel.todayDate = CommonUtility.getCurrentDate();
+                assetHistoryCardModel.countOpen = ""+countOpen;
+                assetHistoryCardModel.countCompleted = ""+countCompleted;
+
+                DatabaseManager.saveAssetHistoryCardsInfo(mContext, assetHistoryCardModel);
+            }
+            else
+            {
+                DatabaseManager.updateAssetHistoryCard(CommonUtility.getCurrentDate(), ""+countOpen, ""+countCompleted);
+            }
+
+            assetHistoryTables = DatabaseManager.getAssetHistoryCards(userId);
+            for(int j = 0; j < assetHistoryTables.size(); j++)
+            {
+                countHistory = countHistory + Integer.parseInt(assetHistoryTables.get(j).countCompleted);
+            }
+        }
+        else
+        {
+            if(countOpen > 0)
+            {
+                AssetHistoryCardModel assetHistoryCardModel = new AssetHistoryCardModel();
+                assetHistoryCardModel.todayDate = CommonUtility.getCurrentDate();
+                assetHistoryCardModel.countOpen = ""+countOpen;
+                assetHistoryCardModel.countCompleted = ""+countCompleted;
+
+                DatabaseManager.saveAssetHistoryCardsInfo(mContext, assetHistoryCardModel);
+            }
+        }
+
+        btnHistory.setText(""+countHistory);
     }
 
     @Override
@@ -235,8 +323,8 @@ public class LandingActivity extends ParentActivity implements View.OnClickListe
             try
             {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("user_id", empId);
-                jsonObject.put("fcm_token", deviceFcmToken);
+                jsonObject.put(getString(R.string.user_id), empId);
+                jsonObject.put(getString(R.string.fcm_token), deviceFcmToken);
 
                 JsonObjectRequest request = WebRequest.callPostMethod(jsonObject, Request.Method.POST, ApiConstants.UPDATE_FCM_TOKEN_URL,
                         ApiConstants.UPDATE_FCM_TOKEN, this, token);

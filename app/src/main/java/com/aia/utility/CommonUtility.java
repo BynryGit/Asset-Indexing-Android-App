@@ -29,6 +29,8 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 
 import com.aia.R;
+import com.aia.db.tables.AssetHistoryTable;
+import com.aia.db.tables.AssetJobCardTable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -178,8 +180,6 @@ public class CommonUtility
         }
         return true;
     }
-
-
 
     /**
      * we will save that we have already asked the user
@@ -336,15 +336,6 @@ public class CommonUtility
         return dateFormat.format(date);
     }
 
-    public static String getPreviousDate(int prev){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, -prev);
-        Date newDate = calendar.getTime();
-        return dateFormat.format(newDate);
-    }
-
     public static boolean checkGPSConnectivity(final Context mContext)
     {
         boolean returns = false;
@@ -406,5 +397,36 @@ public class CommonUtility
         } else {
             return false;
         }
+    }
+
+    public static boolean isLoggedIn(Context mContext) {
+        String loginDate = AppPreferences.getInstance(mContext).getString(AppConstants.LOGIN_DATE, AppConstants.BLANK_STRING);
+        if (!loginDate.equals(""))
+        {
+            String currentDate = getCurrentDate();
+            if (loginDate.equals(currentDate))
+                return true;
+        }
+        return false;
+    }
+
+    public static String getPreviousDateCondition()
+    {
+        StringBuilder condition = new StringBuilder(AssetJobCardTable.Cols.ASSET_SUBMITTED_DATE + " NOT IN (");
+        for (int i = 0; i < AppConstants.UPLOAD_HISTORY_DATE_COUNT; i++)
+        {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.DAY_OF_YEAR, -i);
+            Date newDate = calendar.getTime();
+            if(i+1==AppConstants.UPLOAD_HISTORY_DATE_COUNT){
+                condition.append("'" + dateFormat.format(newDate) + "')");
+            }else {
+                condition.append("'" + dateFormat.format(newDate) + "',");
+            }
+        }
+
+        return String.valueOf(condition);
     }
 }

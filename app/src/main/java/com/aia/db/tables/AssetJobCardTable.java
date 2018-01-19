@@ -13,7 +13,7 @@ import com.aia.db.ContentDescriptor;
 public class AssetJobCardTable
 {
     public static final String TABLE_NAME = "AssetJobCardTable";
-    public static final String PATH = "NSC_JOB_CARD_TABLE";
+    public static final String PATH = "ASSET_JOB_CARD_TABLE";
     public static final int PATH_TOKEN = 20;
     public static final Uri CONTENT_URI = ContentDescriptor.BASE_URI.buildUpon().appendPath(PATH).build();
     /**

@@ -6,11 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
+import com.aia.db.tables.AssetHistoryTable;
 import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
 import com.aia.db.tables.NotificationTable;
+import com.aia.models.AssetHistoryCardModel;
 import com.aia.models.NotificationCard;
 import com.aia.models.AssetJobCardModel;
 import com.aia.models.UserProfileModel;
@@ -18,9 +19,7 @@ import com.aia.utility.AppConstants;
 import com.aia.utility.AppPreferences;
 import com.aia.utility.CommonUtility;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DatabaseManager
 {
@@ -61,8 +60,6 @@ public class DatabaseManager
     private static ContentValues getContentValuesUserInfoTable(UserProfileModel userProfileModel) {
         ContentValues values = new ContentValues();
         try {
-            SimpleDateFormat df = new SimpleDateFormat(pattern);
-            String date = df.format(new Date());
             values.put(LoginTable.Cols.USER_ID, userProfileModel.user_id != null ? userProfileModel.user_id : "");
             values.put(LoginTable.Cols.USER_NAME, userProfileModel.user_name != null ? userProfileModel.user_name : "");
             values.put(LoginTable.Cols.USER_LOGIN_ID, userProfileModel.emp_id != null ? userProfileModel.emp_id : "");
@@ -71,7 +68,7 @@ public class DatabaseManager
             values.put(LoginTable.Cols.USER_CONTACT_NO, userProfileModel.contact_no != null ? userProfileModel.contact_no : "");
             values.put(LoginTable.Cols.USER_ADDRESS, userProfileModel.address != null ? userProfileModel.address : "");
             values.put(LoginTable.Cols.EMP_TYPE, userProfileModel.emp_type != null ? userProfileModel.emp_type : "");
-            values.put(LoginTable.Cols.LOGIN_DATE,  date);
+            values.put(LoginTable.Cols.LOGIN_DATE,  CommonUtility.getCurrentDate());
             values.put(LoginTable.Cols.LOGIN_LAT,  "");
             values.put(LoginTable.Cols.LOGIN_LNG,  "");
 
@@ -172,13 +169,13 @@ public class DatabaseManager
 
     private static void saveAssetJobCardsInfo(Context context, AssetJobCardModel todayModel) {
         if (todayModel != null) {
-            ContentValues values = getContentValuesNSCJobCardTable(context, todayModel);
+            ContentValues values = getContentValuesAssetJobCardTable(context, todayModel);
             String condition = AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + todayModel.assetCardId + "'";
             saveValues(context, AssetJobCardTable.CONTENT_URI, values, condition);
         }
     }
 
-    private static ContentValues getContentValuesNSCJobCardTable(Context context, AssetJobCardModel todayModel) {
+    private static ContentValues getContentValuesAssetJobCardTable(Context context, AssetJobCardModel todayModel) {
         ContentValues values = new ContentValues();
         try {
             values.put(AssetJobCardTable.Cols.USER_LOGIN_ID, AppPreferences.getInstance(context).getString(AppConstants.EMP_ID, ""));
@@ -215,11 +212,11 @@ public class DatabaseManager
         ArrayList<AssetJobCardModel> jobCards = null;
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            AssetJobCardModel nsc_today_cards;
+            AssetJobCardModel assetJobCardModel;
             jobCards = new ArrayList<>();
             while (!cursor.isAfterLast()) {
-                nsc_today_cards = getAssetJobCardFromCursor(cursor);
-                jobCards.add(nsc_today_cards);
+                assetJobCardModel = getAssetJobCardFromCursor(cursor);
+                jobCards.add(assetJobCardModel);
                 cursor.moveToNext();
             }
         }
@@ -253,24 +250,12 @@ public class DatabaseManager
         return cnt;
     }
 
-    public static int getAssetHistoryCount(String userId, String jobCardStatus, String date) {
-        SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Select * from " + AssetJobCardTable.TABLE_NAME + " where " +
-                AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " +
-                AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus + "' AND " +
-                AssetJobCardTable.Cols.ASSET_ASSIGNED_DATE + "='" + date + "'", null);
-        int cnt = cursor.getCount();
-        cursor.close();
-        return cnt;
-    }
-
     public static void updateAssetJobCardStatus(String assetCardId, String jobCardStatus, String submittedDate) {
         SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(AssetJobCardTable.Cols.ASSET_CARD_STATUS, jobCardStatus);
         values.put(AssetJobCardTable.Cols.ASSET_SUBMITTED_DATE, submittedDate);
-        String condition = AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + assetCardId + "'";
-        db.update(AssetJobCardTable.TABLE_NAME, values, condition, null);
+        db.update(AssetJobCardTable.TABLE_NAME, values, "asset_card_id="+assetCardId, null);
         if (db.isOpen()) {
             db.close();
         }
@@ -284,11 +269,109 @@ public class DatabaseManager
 
     public static void deleteAssetJobCard(Context context, String assetCardId, String userId ) {
         try {
-            String condition = AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " + AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + assetCardId + "'";
+            String condition = AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " +
+                    AssetJobCardTable.Cols.ASSET_CARD_ID + "='" + assetCardId + "' AND " +
+                    AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + AppConstants.CARD_STATUS_OPEN + "'";
             context.getContentResolver().delete(AssetJobCardTable.CONTENT_URI, condition, null);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {e.printStackTrace();}
+    }
+
+    public static ArrayList<AssetJobCardModel> getJobCardsBySearch(Context context, String query, String userId, String jobCardStatus)
+    {
+        String condition = AssetJobCardTable.Cols.USER_LOGIN_ID + "='" + userId + "' AND " +
+                AssetJobCardTable.Cols.ASSET_CARD_STATUS + "='" + jobCardStatus + "' AND (" +
+                AssetJobCardTable.Cols.ASSET_MAKE_NO + " LIKE '%" + query + "%' OR " +
+                AssetJobCardTable.Cols.ASSET_NAME + " LIKE '%" + query + "%')";
+        ContentResolver resolver = context.getContentResolver();
+        Cursor cursor = resolver.query(AssetJobCardTable.CONTENT_URI, null, condition, null, null);
+        ArrayList<AssetJobCardModel> jobCards = getAssetJobCardListFromCursor(cursor);
+        if (cursor != null) {
+            cursor.close();
         }
+        return jobCards;
     }
     //     AssetTable Related Methods Ends
+
+    //     HistoryTable Related Methods Starts
+    public static void saveAssetHistoryCardsInfo(Context context, AssetHistoryCardModel todayModel) {
+        if (todayModel != null) {
+            ContentValues values = getContentValuesAssetHistoryCardTable(context, todayModel);
+            String condition = AssetHistoryTable.Cols.TODAY_DATE + "='" + todayModel.todayDate + "'";
+            saveValues(context, AssetHistoryTable.CONTENT_URI, values, condition);
+        }
+    }
+
+    private static ContentValues getContentValuesAssetHistoryCardTable(Context context, AssetHistoryCardModel todayModel) {
+        ContentValues values = new ContentValues();
+        try {
+            values.put(AssetHistoryTable.Cols.USER_LOGIN_ID, AppPreferences.getInstance(context).getString(AppConstants.EMP_ID, ""));
+            values.put(AssetHistoryTable.Cols.TODAY_DATE, todayModel.todayDate);
+            values.put(AssetHistoryTable.Cols.OPEN_COUNT, todayModel.countOpen);
+            values.put(AssetHistoryTable.Cols.COMPLETED_COUNT, todayModel.countCompleted);
+
+        } catch (Exception e) {e.printStackTrace();}
+
+        return values;
+    }
+
+    public static ArrayList<AssetHistoryCardModel> getAssetHistoryCards(String userId) {
+        SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + AssetHistoryTable.TABLE_NAME + " where " +
+                AssetHistoryTable.Cols.USER_LOGIN_ID + "='" + userId + "'", null);
+        ArrayList<AssetHistoryCardModel> jobCards = getAssetHistoryCardListFromCursor(cursor);
+        if (cursor != null) {
+            cnt = cursor.getCount();
+            cursor.close();
+        }
+        if (db.isOpen())
+            db.close();
+        return jobCards;
+    }
+
+    private static ArrayList<AssetHistoryCardModel> getAssetHistoryCardListFromCursor(Cursor cursor) {
+        ArrayList<AssetHistoryCardModel> jobCards = null;
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            AssetHistoryCardModel historyCardModel;
+            jobCards = new ArrayList<>();
+            while (!cursor.isAfterLast()) {
+                historyCardModel = getAssetHistoryCardFromCursor(cursor);
+                jobCards.add(historyCardModel);
+                cursor.moveToNext();
+            }
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+        return jobCards;
+    }
+
+    private static AssetHistoryCardModel getAssetHistoryCardFromCursor(Cursor cursor) {
+        AssetHistoryCardModel historyCardModel = new AssetHistoryCardModel();
+        historyCardModel.todayDate = cursor.getString(cursor.getColumnIndex(AssetHistoryTable.Cols.TODAY_DATE)) != null ? cursor.getString(cursor.getColumnIndex(AssetHistoryTable.Cols.TODAY_DATE)) : "";
+        historyCardModel.countOpen = cursor.getString(cursor.getColumnIndex(AssetHistoryTable.Cols.OPEN_COUNT)) != null ? cursor.getString(cursor.getColumnIndex(AssetHistoryTable.Cols.OPEN_COUNT)) : "";
+        historyCardModel.countCompleted = cursor.getString(cursor.getColumnIndex(AssetHistoryTable.Cols.COMPLETED_COUNT)) != null ? cursor.getString(cursor.getColumnIndex(AssetHistoryTable.Cols.COMPLETED_COUNT)) : "";
+        return historyCardModel;
+    }
+
+    public static void updateAssetHistoryCard(String currentDate, String countOpen, String countCompleted) {
+        SQLiteDatabase db = DatabaseProvider.dbHelper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(AssetHistoryTable.Cols.OPEN_COUNT, countOpen);
+        values.put(AssetHistoryTable.Cols.COMPLETED_COUNT, countCompleted);
+        db.update(AssetHistoryTable.TABLE_NAME, values, "today_date='" + currentDate + "'", null);
+        if (db.isOpen()) {
+            db.close();
+        }
+    }
+
+    public static int deleteUploadsHistory(Context context) {
+        String condition = CommonUtility.getPreviousDateCondition();
+        ContentResolver resolver = context.getContentResolver();
+        int deleted = resolver.delete(AssetJobCardTable.CONTENT_URI, condition, null);
+
+        return deleted;
+    }
+
+    //     HistoryTable Related Methods Ends
 }

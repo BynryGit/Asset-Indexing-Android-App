@@ -23,6 +23,7 @@ public class AppConstants
     public static final int RESULT_OK = -1;
     public static int ZERO = 0;
     public static int ONE = 1;
+    public static int UPLOAD_HISTORY_DATE_COUNT = 15;
 
     //Constant for cropped image
     public static final String CROPPED_IMAGE = "croppedImage";
@@ -37,6 +38,7 @@ public class AppConstants
     public static String CARD_STATUS_COMPLETED = "Completed";
 
     //String Values
+    public static String LOGIN_DATE = "login_date";
     public static String MOBILE_NO = "mobile_no";
     public static String USER_NAME = "user_name";
     public static String USER_CITY = "user_city";

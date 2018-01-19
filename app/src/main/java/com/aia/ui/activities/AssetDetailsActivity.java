@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -78,7 +79,7 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
-    private String ASSET_IMAGE_DIRECTORY_NAME = ".Asset-Image", assetImageName = "image";
+    private String ASSET_IMAGE_DIRECTORY_NAME = "Asset-Image", assetImageName = "image";
 
     private Context mContext;
     private Typeface fontRegular, fontBold, fontItalic;
@@ -198,8 +199,15 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
                 }
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Uri file = getOutputMediaFileUri(ASSET_IMAGE_DIRECTORY_NAME, assetImageName);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+                Uri fileUri = null;
+                fileUri = getOutputMediaFileUri(ASSET_IMAGE_DIRECTORY_NAME, assetImageName);
+                List<ResolveInfo> resolvedIntentActivities = mContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
+                    String packageName = resolvedIntentInfo.activityInfo.packageName;
+
+                    mContext.grantUriPermission(packageName, fileUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                 startActivityForResult(intent, AppConstants.CAMERA_RESULT_CODE);
             }
         }
@@ -785,6 +793,13 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
     protected void startLocationUpdates()
     {
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
@@ -867,7 +882,7 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
         File fileDelete = file;
         if (fileDelete.exists()) {
             if (fileDelete.delete()) {
-                callBroadCast();
+//                callBroadCast();
             } else {
             }
         }
@@ -890,7 +905,6 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
         try {
             if(folder1.exists())
                 CommonUtility.deleteDir(folder1);
-
         }catch(Exception e) {}
     }
 
@@ -928,7 +942,7 @@ public class AssetDetailsActivity extends ParentActivity implements View.OnClick
 
                     if(response.getString(getString(R.string.result)).equalsIgnoreCase(getString(R.string.success)))
                     {
-                        DatabaseManager.updateAssetJobCardStatus(assetId, AppConstants.CARD_STATUS_COMPLETED, CommonUtility.getCurrentDate());
+                        DatabaseManager.updateAssetJobCardStatus(jobCardId, AppConstants.CARD_STATUS_COMPLETED, CommonUtility.getCurrentDate());
                         deleteImage(finalFile);
                         finish();
                     }

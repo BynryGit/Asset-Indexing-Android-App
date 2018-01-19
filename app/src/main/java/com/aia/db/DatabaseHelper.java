@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.aia.db.tables.AssetHistoryTable;
 import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
 import com.aia.db.tables.NotificationTable;
@@ -33,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         createLoginTable(db);
         createNotificationTable(db);
         createNSCJobCardTable(db);
+        createAssetHistoryTable(db);
     }
 
     @Override
@@ -58,6 +60,17 @@ public class DatabaseHelper extends SQLiteOpenHelper
         createTable(db, LoginTable.TABLE_NAME, loginTableFields);
     }
 
+    private void createNotificationTable(SQLiteDatabase db)
+    {
+        String notificationTableFields = NotificationTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NotificationTable.Cols.TITLE+ " VARCHAR, " +
+                NotificationTable.Cols.MSG + " VARCHAR, " +
+                NotificationTable.Cols.DATE + " VARCHAR, " +
+                NotificationTable.Cols.IS_READ + " VARCHAR " ;
+
+        createTable(db, NotificationTable.TABLE_NAME, notificationTableFields);
+    }
+
     private void createNSCJobCardTable(SQLiteDatabase db)
     {
         String NSCJobCardTableFields = AssetJobCardTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -74,15 +87,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
         createTable(db, AssetJobCardTable.TABLE_NAME, NSCJobCardTableFields);
     }
 
-    private void createNotificationTable(SQLiteDatabase db)
+    private void createAssetHistoryTable(SQLiteDatabase db)
     {
-        String notificationTableFields = NotificationTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                NotificationTable.Cols.TITLE+ " VARCHAR, " +
-                NotificationTable.Cols.MSG + " VARCHAR, " +
-                NotificationTable.Cols.DATE + " VARCHAR, " +
-                NotificationTable.Cols.IS_READ + " VARCHAR " ;
-
-        createTable(db, NotificationTable.TABLE_NAME, notificationTableFields);
+        String assetHistoryTableFields = AssetHistoryTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                AssetHistoryTable.Cols.USER_LOGIN_ID + " VARCHAR, " +
+                AssetHistoryTable.Cols.TODAY_DATE + " VARCHAR, " +
+                AssetHistoryTable.Cols.OPEN_COUNT + " VARCHAR, " +
+                AssetHistoryTable.Cols.COMPLETED_COUNT + " VARCHAR";
+        createTable(db, AssetHistoryTable.TABLE_NAME, assetHistoryTableFields);
     }
 
     public void dropTable(SQLiteDatabase db, String name)

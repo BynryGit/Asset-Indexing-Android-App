@@ -151,6 +151,7 @@ public class LoginActivity extends ParentActivity implements View.OnClickListene
                                 AppPreferences.getInstance(mContext).putString(AppConstants.EMP_ID, jsonResponse.responsedata.getEmp_id());
                                 AppPreferences.getInstance(mContext).putString(AppConstants.MOBILE_NO, jsonResponse.responsedata.getContact_no());
                                 AppPreferences.getInstance(mContext).putString(AppConstants.PROFILE_IMAGE_URL, jsonResponse.responsedata.getProfile_image());
+                                AppPreferences.getInstance(mContext).putString(AppConstants.LOGIN_DATE, CommonUtility.getCurrentDate());
 
                                 Intent intent = new Intent(mContext, LandingActivity.class);
                                 startActivity(intent);

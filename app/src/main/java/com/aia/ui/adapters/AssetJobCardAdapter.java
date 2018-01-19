@@ -25,12 +25,14 @@ public class AssetJobCardAdapter extends RecyclerView.Adapter<AssetJobCardAdapte
 {
 
     private Context mContext;
+    private boolean jobCardClickable;
     private ArrayList<AssetJobCardModel> todayModelArrayList;
 
-    public AssetJobCardAdapter(Context context, ArrayList<AssetJobCardModel> todayModelCards)
+    public AssetJobCardAdapter(Context context, ArrayList<AssetJobCardModel> todayModelCards, boolean jobCardClickable)
     {
         this.mContext = context;
         this.todayModelArrayList = todayModelCards;
+        this.jobCardClickable = jobCardClickable;
     }
 
     @Override
@@ -61,9 +63,12 @@ public class AssetJobCardAdapter extends RecyclerView.Adapter<AssetJobCardAdapte
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(mContext, AssetDetailsActivity.class);
-                intent.putExtra(AppConstants.JOB_CARD_ID, todayModelArrayList.get(position).assetCardId);
-                mContext.startActivity(intent);
+                if(jobCardClickable)
+                {
+                    Intent intent = new Intent(mContext, AssetDetailsActivity.class);
+                    intent.putExtra(AppConstants.JOB_CARD_ID, todayModelArrayList.get(position).assetCardId);
+                    mContext.startActivity(intent);
+                }
             }
         });
     }

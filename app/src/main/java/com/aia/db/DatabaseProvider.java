@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import com.aia.db.tables.AssetHistoryTable;
 import com.aia.db.tables.AssetJobCardTable;
 import com.aia.db.tables.LoginTable;
 import com.aia.db.tables.NotificationTable;
@@ -63,6 +64,12 @@ public class DatabaseProvider extends ContentProvider
                         selection, selectionArgs, sortOrder);
                 break;
             }
+            case AssetHistoryTable.PATH_TOKEN:
+            {
+                result = doQuery(db, uri, AssetHistoryTable.TABLE_NAME, projection,
+                        selection, selectionArgs, sortOrder);
+                break;
+            }
         }
 
         return result;
@@ -101,6 +108,12 @@ public class DatabaseProvider extends ContentProvider
                         AssetJobCardTable.CONTENT_URI, uri, values);
                 break;
             }
+            case AssetHistoryTable.PATH_TOKEN:
+            {
+                result = doInsert(db, AssetHistoryTable.TABLE_NAME,
+                        AssetHistoryTable.CONTENT_URI, uri, values);
+                break;
+            }
         }
 
         if (result == null)
@@ -132,6 +145,11 @@ public class DatabaseProvider extends ContentProvider
             case AssetJobCardTable.PATH_TOKEN:
             {
                 table = AssetJobCardTable.TABLE_NAME;
+                break;
+            }
+            case AssetHistoryTable.PATH_TOKEN:
+            {
+                table = AssetHistoryTable.TABLE_NAME;
                 break;
             }
         }
@@ -180,6 +198,12 @@ public class DatabaseProvider extends ContentProvider
                         selectionArgs);
                 break;
             }
+            case AssetHistoryTable.PATH_TOKEN:
+            {
+                result = doDelete(db, uri, AssetHistoryTable.TABLE_NAME, selection,
+                        selectionArgs);
+                break;
+            }
         }
 
         return result;
@@ -211,6 +235,12 @@ public class DatabaseProvider extends ContentProvider
             case AssetJobCardTable.PATH_TOKEN:
             {
                 result = doUpdate(db, uri, AssetJobCardTable.TABLE_NAME, selection,
+                        selectionArgs, values);
+                break;
+            }
+            case AssetHistoryTable.PATH_TOKEN:
+            {
+                result = doUpdate(db, uri, AssetHistoryTable.TABLE_NAME, selection,
                         selectionArgs, values);
                 break;
             }
